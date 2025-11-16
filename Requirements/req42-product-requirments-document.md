@@ -55,11 +55,64 @@ At best future newspapers would title an article of the software like:
 
 # Scope
 
+# Feature Hierarchy
+
+Requirements follow an Agile hierarchy:
+- **Features** (FEAT####) - High-level capabilities
+- **User Stories** (US####) - Specific deliverables
+- **Scenarios** - Individual acceptance criteria (in Gherkin)
+
+## File Structure
+```
+Requirements/
+  Features/
+    FEAT####-Feature-Name/
+      README.md (feature overview)
+      US####-User-Story-Name.feature
+      US####-User-Story-Name.mockup.prompt (optional)
+```
+
+## User Story Format
+User stories are written in Gherkin syntax:
+
+```gherkin
+@UserStory####
+Feature: US#### - Story Title
+  # User Story: US#### - Story Title
+  # As a [role]
+  # I want [capability]
+  # So that [benefit]
+
+  @Issue###
+  Scenario: Scenario description
+    Given [context]
+    When [action]
+    Then [expected outcome]
+```
+
 # Product Backlog
 
 ## Features
 
-- F0001-Bookshelf-Consolidation ([Specification](Features/F0001-Bookshelf-Consolidation.feature), [Mockup](Feature/F0001-Bookshelf-Consolidation.mockup.prompt))
+### FEAT0001 - Bookshelf Management
+Core functionality for managing personal book collections via CLI.
+
+**User Stories:**
+- [#TBD](https://github.com/ChrisKrt/c7n.Bookshelf/issues) [US0001 - Bookshelf Consolidation](Features/FEAT0001-Bookshelf-Management/US0001-Bookshelf-Consolidation.feature) - Consolidate scattered PDFs into organized bookshelf
+- [#TBD](https://github.com/ChrisKrt/c7n.Bookshelf/issues) [US0002 - Bookshelf List](Features/FEAT0001-Bookshelf-Management/US0002-Bookshelf-List.feature) - View and filter book lists
+- [#TBD](https://github.com/ChrisKrt/c7n.Bookshelf/issues) [US0003 - Bookshelf Reordering](Features/FEAT0001-Bookshelf-Management/US0003-Bookshelf-Reordering.feature) - Organize and categorize books
+
+### FEAT0002 - AI Integration
+Enable AI agents to query and utilize the knowledge base.
+
+**User Stories:**
+- [#TBD](https://github.com/ChrisKrt/c7n.Bookshelf/issues) [US0004 - Create RAG AI Agent](Features/FEAT0002-AI-Integration/US0004-Create-RAG-AI-Agent.feature) - RAG-ready data structure for AI consumption
+
+### FEAT0003 - Bibliography
+Support academic citation and bibliography management.
+
+**User Stories:**
+- [#TBD](https://github.com/ChrisKrt/c7n.Bookshelf/issues) [US0005 - Bibtex Files](Features/FEAT0003-Bibliography/US0005-Bibtex-Files.feature) - Generate and manage BibTeX citations
 
 # Supporting Models
 

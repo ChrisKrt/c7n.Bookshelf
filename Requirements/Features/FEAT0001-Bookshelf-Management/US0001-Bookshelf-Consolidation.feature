@@ -1,7 +1,8 @@
-Feature: Bookshelf Consolidation - CLI Command
-    Problem: The books are scattered across multiple folders,
-     some are single pdf files and some are collections of pdfs within folders.
-    Solution: Create a single consolidated bookshelf folder containing all books as individual pdf files, where collections are merged into single pdfs.
+Feature: US0001 - Bookshelf Consolidation
+  # User Story: US0001 - Bookshelf Consolidation
+  # As a book collector with scattered PDF files across multiple folders
+  # I want to consolidate all my books into a single organized bookshelf
+  # So that I can easily find and access my entire collection from one location
 
   Scenario: Consolidate scattered individual PDF files into bookshelf
     Given I have multiple PDF files scattered across different folders

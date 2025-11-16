@@ -19,20 +19,20 @@ Scanning source directory...
 Found: 45 PDF files, 12 collection folders
 
 Processing:
-[✓] Copying individual file: "Clean Code.pdf"
-[✓] Copying individual file: "Design Patterns.pdf"
+[✓] Copying individual file: "Clean Code.pdf" (metadata preserved)
+[✓] Copying individual file: "Design Patterns.pdf" (metadata preserved)
 [⚙] Merging collection: "The Art of Computer Programming" (5 files)
     - Merging: Volume 1.pdf
     - Merging: Volume 2.pdf
     - Merging: Volume 3.pdf
     - Merging: Volume 4A.pdf
     - Merging: Volume 4B.pdf
-[✓] Created: "The Art of Computer Programming.pdf" (1,234 pages)
-[✓] Copying individual file: "Refactoring.pdf"
+[✓] Created: "The Art of Computer Programming.pdf" (1,234 pages, metadata from Volume 1)
+[✓] Copying individual file: "Refactoring.pdf" (metadata preserved)
 [⚙] Merging collection: "SICP" (2 files)
     - Merging: SICP-Part1.pdf
     - Merging: SICP-Part2.pdf
-[✓] Created: "SICP.pdf" (654 pages)
+[✓] Created: "SICP.pdf" (654 pages, metadata from SICP-Part1)
 [!] Naming conflict detected: "Programming.pdf" already exists
     Renamed to: "Programming_2.pdf"
 ...
