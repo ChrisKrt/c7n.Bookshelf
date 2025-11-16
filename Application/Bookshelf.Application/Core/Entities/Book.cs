@@ -5,36 +5,8 @@ namespace Bookshelf.Application.Core.Entities;
 /// <summary>
 /// Represents a book in the system
 /// </summary>
-public sealed class Book
+public sealed record Book(BookPath Path, BookMetadata Metadata, bool IsCollection = false)
 {
-    /// <summary>
-    /// Gets the book path
-    /// </summary>
-    public BookPath Path { get; }
-
-    /// <summary>
-    /// Gets the book metadata
-    /// </summary>
-    public BookMetadata Metadata { get; }
-
-    /// <summary>
-    /// Gets whether this book is a collection (contains multiple PDFs)
-    /// </summary>
-    public bool IsCollection { get; }
-
-    /// <summary>
-    /// Initializes a new instance of the Book class
-    /// </summary>
-    /// <param name="path">The book path</param>
-    /// <param name="metadata">The book metadata</param>
-    /// <param name="isCollection">Whether this is a collection</param>
-    public Book(BookPath path, BookMetadata metadata, bool isCollection = false)
-    {
-        Path = path ?? throw new ArgumentNullException(nameof(path));
-        Metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
-        IsCollection = isCollection;
-    }
-
     /// <summary>
     /// Creates a book from a file path
     /// </summary>

@@ -3,6 +3,7 @@ using Bookshelf.Application.Core.Entities;
 using Bookshelf.Application.Core.ValueObjects;
 using Bookshelf.Application.Spi;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace Bookshelf.Application.Services;
 
@@ -207,6 +208,10 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
     /// </summary>
     private async Task<List<string>> GetAllPdfsRecursivelyAsync(string directoryPath)
     {
+        // Precondition: directory path must be valid
+        Debug.Assert(!string.IsNullOrWhiteSpace(directoryPath), "Directory path must not be null or whitespace");
+        Debug.Assert(_fileSystemAdapter.DirectoryExists(directoryPath), "Directory must exist");
+        
         var allPdfs = new List<string>();
         
         // Get PDFs in current directory
@@ -223,6 +228,10 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
 
         // Sort to ensure consistent ordering
         allPdfs.Sort(StringComparer.OrdinalIgnoreCase);
+        
+        // Postcondition: result should not be null and all paths should be valid
+        Debug.Assert(allPdfs != null, "Result list must not be null");
+        Debug.Assert(allPdfs.All(p => !string.IsNullOrWhiteSpace(p)), "All paths must be valid");
         
         return allPdfs;
     }

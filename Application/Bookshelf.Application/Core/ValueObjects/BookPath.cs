@@ -3,7 +3,7 @@ namespace Bookshelf.Application.Core.ValueObjects;
 /// <summary>
 /// Represents a book file path with validation
 /// </summary>
-public sealed class BookPath
+public sealed record BookPath
 {
     /// <summary>
     /// Gets the full file path
@@ -21,7 +21,7 @@ public sealed class BookPath
     public string Extension { get; }
 
     /// <summary>
-    /// Initializes a new instance of the BookPath class
+    /// Initializes a new instance of the BookPath record
     /// </summary>
     /// <param name="fullPath">The full file path</param>
     /// <exception cref="ArgumentException">Thrown when the path is invalid</exception>
@@ -49,9 +49,9 @@ public sealed class BookPath
 
     public override string ToString() => FullPath;
 
-    public override bool Equals(object? obj)
+    public bool Equals(BookPath? other)
     {
-        return obj is BookPath other && 
+        return other is not null && 
                string.Equals(FullPath, other.FullPath, StringComparison.OrdinalIgnoreCase);
     }
 
