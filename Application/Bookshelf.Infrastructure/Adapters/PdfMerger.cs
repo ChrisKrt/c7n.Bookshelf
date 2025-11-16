@@ -1,12 +1,13 @@
 using Bookshelf.Application.Core.ValueObjects;
 using Bookshelf.Application.Spi;
-using iText.Kernel.Pdf;
 using Microsoft.Extensions.Logging;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
 
 namespace Bookshelf.Infrastructure.Adapters;
 
 /// <summary>
-/// PDF merger implementation using iText7
+/// PDF merger implementation using PdfSharp
 /// </summary>
 public class PdfMerger : IPdfMerger
 {
@@ -40,23 +41,20 @@ public class PdfMerger : IPdfMerger
                     return false;
                 }
 
-                // Create output PDF
-                using var outputWriter = new PdfWriter(outputPdfPath);
-                using var outputPdf = new PdfDocument(outputWriter);
+                // Create output PDF document
+                using var outputDocument = new PdfDocument();
                 
                 // Set metadata if provided
                 if (metadata != null)
                 {
-                    var pdfInfo = outputPdf.GetDocumentInfo();
-                    
                     if (!string.IsNullOrWhiteSpace(metadata.Title))
                     {
-                        pdfInfo.SetTitle(metadata.Title);
+                        outputDocument.Info.Title = metadata.Title;
                     }
                     
                     if (!string.IsNullOrWhiteSpace(metadata.Author))
                     {
-                        pdfInfo.SetAuthor(metadata.Author);
+                        outputDocument.Info.Author = metadata.Author;
                     }
                 }
 
@@ -73,13 +71,16 @@ public class PdfMerger : IPdfMerger
 
                     try
                     {
-                        using var sourceReader = new PdfReader(sourcePath);
-                        using var sourcePdf = new PdfDocument(sourceReader);
+                        using var sourceDocument = PdfReader.Open(sourcePath, PdfDocumentOpenMode.Import);
                         
                         // Copy all pages from source to output
-                        sourcePdf.CopyPagesTo(1, sourcePdf.GetNumberOfPages(), outputPdf);
+                        for (int i = 0; i < sourceDocument.PageCount; i++)
+                        {
+                            outputDocument.AddPage(sourceDocument.Pages[i]);
+                        }
                         
-                        _logger.LogDebug("Merged PDF: {SourcePath}", sourcePath);
+                        _logger.LogDebug("Merged PDF: {SourcePath} ({PageCount} pages)", 
+                            sourcePath, sourceDocument.PageCount);
                     }
                     catch (Exception ex)
                     {
@@ -88,7 +89,17 @@ public class PdfMerger : IPdfMerger
                     }
                 }
 
-                return true;
+                // Save the merged document
+                if (outputDocument.PageCount > 0)
+                {
+                    outputDocument.Save(outputPdfPath);
+                    return true;
+                }
+                else
+                {
+                    _logger.LogWarning("No pages to save in merged PDF");
+                    return false;
+                }
             }, cancellationToken);
         }
         catch (OperationCanceledException)
@@ -118,12 +129,10 @@ public class PdfMerger : IPdfMerger
 
                 try
                 {
-                    using var reader = new PdfReader(pdfPath);
-                    using var pdfDocument = new PdfDocument(reader);
-                    var info = pdfDocument.GetDocumentInfo();
-
-                    var title = info.GetTitle();
-                    var author = info.GetAuthor();
+                    using var document = PdfReader.Open(pdfPath, PdfDocumentOpenMode.Import);
+                    
+                    var title = document.Info.Title;
+                    var author = document.Info.Author;
                     
                     // Try to get creation date from file info if not in PDF metadata
                     DateTime? creationDate = null;

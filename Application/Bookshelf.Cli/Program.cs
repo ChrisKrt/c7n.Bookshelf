@@ -36,6 +36,9 @@ try
     services.AddApplicationServices();
     services.AddInfrastructureServices();
     
+    // Register commands
+    services.AddTransient<ConsolidateCommand>();
+    
     // Build service provider
     var serviceProvider = services.BuildServiceProvider();
 

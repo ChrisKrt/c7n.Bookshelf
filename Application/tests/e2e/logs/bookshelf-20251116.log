@@ -1,0 +1,232 @@
+2025-11-16 17:35:21.891 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:35:22.301 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:35:22.545 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:35:22.786 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:35:23.030 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:35:23.283 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:21.201 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:21.388 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_09qprd4h/source to /tmp/bookshelf_test_09qprd4h/target
+2025-11-16 17:36:21.396 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:36:21.399 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 0
+2025-11-16 17:36:29.397 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:29.581 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_npztv9ah/source to /tmp/bookshelf_test_npztv9ah/target
+2025-11-16 17:36:29.588 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:36:29.591 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 0
+2025-11-16 17:36:29.728 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:29.909 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_kmp4_8oq/source to /tmp/bookshelf_test_kmp4_8oq/target
+2025-11-16 17:36:30.087 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_kmp4_8oq/target/Collection1.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:30.275 +00:00 [ERR] Failed to merge collection: Collection1
+2025-11-16 17:36:30.276 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_kmp4_8oq/target/Collection2.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:30.277 +00:00 [ERR] Failed to merge collection: Collection2
+2025-11-16 17:36:30.277 +00:00 [INF] Consolidation completed. Total: 0, Individual: 0, Merged: 0, Conflicts: 0
+2025-11-16 17:36:30.414 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:30.596 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_fiptsgnw/source to /tmp/bookshelf_test_fiptsgnw/target
+2025-11-16 17:36:30.604 +00:00 [DBG] Copied individual PDF: standalone.pdf
+2025-11-16 17:36:30.681 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_fiptsgnw/target/MultiPartBook.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:30.690 +00:00 [ERR] Failed to merge collection: MultiPartBook
+2025-11-16 17:36:30.690 +00:00 [INF] Consolidation completed. Total: 2, Individual: 2, Merged: 0, Conflicts: 0
+2025-11-16 17:36:30.826 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:31.010 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_r0z2oa2n/source to /tmp/bookshelf_test_r0z2oa2n/target
+2025-11-16 17:36:31.018 +00:00 [DBG] Copied individual PDF: metadata_book.pdf
+2025-11-16 17:36:31.096 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_r0z2oa2n/target/MetadataCollection.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:31.106 +00:00 [ERR] Failed to merge collection: MetadataCollection
+2025-11-16 17:36:31.106 +00:00 [INF] Consolidation completed. Total: 1, Individual: 1, Merged: 0, Conflicts: 0
+2025-11-16 17:36:31.243 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:31.430 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_z35ax5gd/source to /tmp/bookshelf_test_z35ax5gd/target
+2025-11-16 17:36:31.438 +00:00 [DBG] Copied individual PDF: duplicate.pdf
+2025-11-16 17:36:31.441 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 2
+2025-11-16 17:36:31.590 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:31.784 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_s4gser7r/source to /tmp/bookshelf_test_s4gser7r/target
+2025-11-16 17:36:31.793 +00:00 [DBG] Copied individual PDF: book0.pdf
+2025-11-16 17:36:31.793 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:36:31.793 +00:00 [DBG] Copied individual PDF: book2.pdf
+2025-11-16 17:36:31.793 +00:00 [DBG] Copied individual PDF: book3.pdf
+2025-11-16 17:36:31.793 +00:00 [DBG] Copied individual PDF: book4.pdf
+2025-11-16 17:36:31.794 +00:00 [DBG] Copied individual PDF: book5.pdf
+2025-11-16 17:36:31.794 +00:00 [DBG] Copied individual PDF: book6.pdf
+2025-11-16 17:36:31.794 +00:00 [DBG] Copied individual PDF: book7.pdf
+2025-11-16 17:36:31.794 +00:00 [DBG] Copied individual PDF: book8.pdf
+2025-11-16 17:36:31.794 +00:00 [DBG] Copied individual PDF: book9.pdf
+2025-11-16 17:36:31.872 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_s4gser7r/target/Collection0.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:31.881 +00:00 [ERR] Failed to merge collection: Collection0
+2025-11-16 17:36:31.883 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_s4gser7r/target/Collection1.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:31.883 +00:00 [ERR] Failed to merge collection: Collection1
+2025-11-16 17:36:31.884 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_s4gser7r/target/Collection2.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:31.884 +00:00 [ERR] Failed to merge collection: Collection2
+2025-11-16 17:36:31.884 +00:00 [INF] Consolidation completed. Total: 10, Individual: 10, Merged: 0, Conflicts: 0
+2025-11-16 17:37:54.808 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:37:54.991 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_enhsv6n2/source to /tmp/bookshelf_test_enhsv6n2/target
+2025-11-16 17:37:54.999 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:37:55.001 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 0
+2025-11-16 17:37:55.128 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:37:55.311 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_bnblcn6v/source to /tmp/bookshelf_test_bnblcn6v/target
+2025-11-16 17:37:55.375 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_bnblcn6v/source/Collection1/chapter1.pdf (1 pages)
+2025-11-16 17:37:55.377 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_bnblcn6v/source/Collection1/chapter2.pdf (1 pages)
+2025-11-16 17:37:55.397 +00:00 [INF] Merged collection Collection1 with 2 PDFs
+2025-11-16 17:37:55.398 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_bnblcn6v/source/Collection2/part1.pdf (1 pages)
+2025-11-16 17:37:55.398 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_bnblcn6v/source/Collection2/part2.pdf (1 pages)
+2025-11-16 17:37:55.399 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_bnblcn6v/source/Collection2/part3.pdf (1 pages)
+2025-11-16 17:37:55.399 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 17:37:55.399 +00:00 [INF] Consolidation completed. Total: 2, Individual: 0, Merged: 2, Conflicts: 0
+2025-11-16 17:37:55.524 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:37:55.709 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_9lhf67ss/source to /tmp/bookshelf_test_9lhf67ss/target
+2025-11-16 17:37:55.717 +00:00 [DBG] Copied individual PDF: standalone.pdf
+2025-11-16 17:37:55.769 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_9lhf67ss/source/MultiPartBook/part1.pdf (1 pages)
+2025-11-16 17:37:55.771 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_9lhf67ss/source/MultiPartBook/part2.pdf (1 pages)
+2025-11-16 17:37:55.791 +00:00 [INF] Merged collection MultiPartBook with 2 PDFs
+2025-11-16 17:37:55.791 +00:00 [INF] Consolidation completed. Total: 3, Individual: 2, Merged: 1, Conflicts: 0
+2025-11-16 17:37:55.922 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:37:56.106 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_eko2l0nk/source to /tmp/bookshelf_test_eko2l0nk/target
+2025-11-16 17:37:56.114 +00:00 [DBG] Copied individual PDF: metadata_book.pdf
+2025-11-16 17:37:56.168 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_eko2l0nk/source/MetadataCollection/chapter1.pdf (2 pages)
+2025-11-16 17:37:56.170 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_eko2l0nk/source/MetadataCollection/chapter2.pdf (2 pages)
+2025-11-16 17:37:56.190 +00:00 [INF] Merged collection MetadataCollection with 2 PDFs
+2025-11-16 17:37:56.190 +00:00 [INF] Consolidation completed. Total: 2, Individual: 1, Merged: 1, Conflicts: 0
+2025-11-16 17:37:56.326 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:37:56.510 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_uzogzmi3/source to /tmp/bookshelf_test_uzogzmi3/target
+2025-11-16 17:37:56.517 +00:00 [DBG] Copied individual PDF: duplicate.pdf
+2025-11-16 17:37:56.520 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 2
+2025-11-16 17:37:56.662 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:37:56.843 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_8wf2tumv/source to /tmp/bookshelf_test_8wf2tumv/target
+2025-11-16 17:37:56.852 +00:00 [DBG] Copied individual PDF: book0.pdf
+2025-11-16 17:37:56.852 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:37:56.852 +00:00 [DBG] Copied individual PDF: book2.pdf
+2025-11-16 17:37:56.852 +00:00 [DBG] Copied individual PDF: book3.pdf
+2025-11-16 17:37:56.853 +00:00 [DBG] Copied individual PDF: book4.pdf
+2025-11-16 17:37:56.853 +00:00 [DBG] Copied individual PDF: book5.pdf
+2025-11-16 17:37:56.853 +00:00 [DBG] Copied individual PDF: book6.pdf
+2025-11-16 17:37:56.853 +00:00 [DBG] Copied individual PDF: book7.pdf
+2025-11-16 17:37:56.853 +00:00 [DBG] Copied individual PDF: book8.pdf
+2025-11-16 17:37:56.853 +00:00 [DBG] Copied individual PDF: book9.pdf
+2025-11-16 17:37:56.905 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection0/part0.pdf (1 pages)
+2025-11-16 17:37:56.907 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection0/part1.pdf (1 pages)
+2025-11-16 17:37:56.907 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection0/part2.pdf (1 pages)
+2025-11-16 17:37:56.927 +00:00 [INF] Merged collection Collection0 with 3 PDFs
+2025-11-16 17:37:56.928 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection1/part0.pdf (1 pages)
+2025-11-16 17:37:56.929 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection1/part1.pdf (1 pages)
+2025-11-16 17:37:56.929 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection1/part2.pdf (1 pages)
+2025-11-16 17:37:56.929 +00:00 [INF] Merged collection Collection1 with 3 PDFs
+2025-11-16 17:37:56.930 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection2/part0.pdf (1 pages)
+2025-11-16 17:37:56.930 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection2/part1.pdf (1 pages)
+2025-11-16 17:37:56.931 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection2/part2.pdf (1 pages)
+2025-11-16 17:37:56.931 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 17:37:56.931 +00:00 [INF] Consolidation completed. Total: 13, Individual: 10, Merged: 3, Conflicts: 0
