@@ -19,14 +19,14 @@ version_files = [
 [tool.commitizen.customize]
 message_template = "{{change_type}}(#{{ticket_number}}): {{message}}{% if change_type == 'Feature' %} (US-{{user_story_number}}){% endif %}"
 example = "Feature(#89): this feature enables customization through config file (US-123)\nBugFix(#45): fixed null reference error\nTask(#12): updated documentation"
-schema = "<type> #<ticket_number>: <body> [(US-<user_story>)]"
-schema_pattern = "^(Feature|BugFix|Task) #(\\d+):(\\s(.*))?(\\s\\(US-(\\d+)\\))?$"
-bump_pattern = "^(Feature|BugFix|Task) #(\\d+):(\\s(.*))?(\\s\\(US-(\\d+)\\))?$"
+schema = "<type>(#<ticket_number>): <body> [(US-<user_story>)]"
+schema_pattern = "^(Feature|BugFix|Task)\\(#(\\d+)\\):(\\s(.*))?(\\s\\(US-(\\d+)\\))?$"
+bump_pattern = "^(Feature|BugFix|Task)\\(#(\\d+)\\):(\\s(.*))?(\\s\\(US-(\\d+)\\))?$"
 bump_map = { "Feature" = "MINOR", "BugFix" = "PATCH", "Task" = "PATCH", "!" = "MAJOR" }
 change_type_order = ["Feature", "BugFix", "Task"]
 info = "Commit types: Feature (MINOR bump), BugFix (PATCH bump), Task (PATCH bump). Use ! for breaking changes (MAJOR bump)."
-commit_parser = "^(?P<change_type>Feature|BugFix|Task) #(?P<ticket_number>\\d+):(?P<message>.*?)(?:\\s\\(US-(?P<user_story_number>\\d+)\\))?$"
-changelog_pattern = "^(?P<change_type>Feature|BugFix|Task) #(?P<ticket_number>\\d+)(?P<breaking>!?):(?P<message>.*?)(?:\\s\\(US-(?P<user_story_number>\\d+)\\))?$"
+commit_parser = "^(?P<change_type>Feature|BugFix|Task)\\(#(?P<ticket_number>\\d+)\\):(?P<message>.*?)(?:\\s\\(US-(?P<user_story_number>\\d+)\\))?$"
+changelog_pattern = "^(?P<change_type>Feature|BugFix|Task)\\(#(?P<ticket_number>\\d+)\\)(?P<breaking>!?):(?P<message>.*?)(?:\\s\\(US-(?P<user_story_number>\\d+)\\))?$"
 change_type_map = { "Feature" = "Feature", "BugFix" = "Bug Fix", "Task" = "Miscellaneous" }
 
 [[tool.commitizen.customize.questions]]
