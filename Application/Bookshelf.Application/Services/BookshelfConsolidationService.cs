@@ -35,36 +35,41 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
 
     /// <inheritdoc />
     public async Task<ConsolidationResult> ConsolidateAsync(
-        string sourceDirectory,
-        string targetDirectory,
+        ConsolidationRequest request,
         IProgress<string>? progressCallback = null,
         CancellationToken cancellationToken = default)
     {
         // Guard clauses
-        if (string.IsNullOrWhiteSpace(sourceDirectory))
+        if (request == null)
         {
-            throw new ArgumentException("Source directory cannot be null or whitespace", nameof(sourceDirectory));
+            throw new ArgumentNullException(nameof(request));
         }
 
-        if (string.IsNullOrWhiteSpace(targetDirectory))
+        if (string.IsNullOrWhiteSpace(request.SourceDirectory))
         {
-            throw new ArgumentException("Target directory cannot be null or whitespace", nameof(targetDirectory));
+            throw new ArgumentException("Source directory cannot be null or whitespace", nameof(request));
         }
 
-        if (!_fileSystemAdapter.DirectoryExists(sourceDirectory))
+        if (string.IsNullOrWhiteSpace(request.TargetDirectory))
         {
-            return ConsolidationResult.CreateFailure($"Source directory does not exist: {sourceDirectory}");
+            throw new ArgumentException("Target directory cannot be null or whitespace", nameof(request));
+        }
+
+        var sourceDirectoryDoesNotExist = !_fileSystemAdapter.DirectoryExists(request.SourceDirectory);
+        if (sourceDirectoryDoesNotExist)
+        {
+            return ConsolidationResult.CreateFailure($"Source directory does not exist: {request.SourceDirectory}");
         }
 
         try
         {
             _logger.LogInformation("Starting consolidation from {SourceDirectory} to {TargetDirectory}", 
-                sourceDirectory, targetDirectory);
+                request.SourceDirectory, request.TargetDirectory);
             
             progressCallback?.Report("Starting consolidation...");
 
             // Ensure target directory exists
-            _fileSystemAdapter.EnsureDirectoryExists(targetDirectory);
+            _fileSystemAdapter.EnsureDirectoryExists(request.TargetDirectory);
 
             var consolidatedBooks = new List<string>();
             var namingConflicts = new List<string>();
@@ -72,14 +77,14 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
             var collectionsMerged = 0;
 
             // Process root PDFs
-            var rootPdfFiles = await _fileSystemAdapter.GetPdfFilesAsync(sourceDirectory);
+            var rootPdfFiles = await _fileSystemAdapter.GetPdfFilesAsync(request.SourceDirectory);
             foreach (var pdfFile in rootPdfFiles)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 
                 var result = await ProcessIndividualPdfAsync(
                     pdfFile, 
-                    targetDirectory, 
+                    request.TargetDirectory, 
                     progressCallback, 
                     namingConflicts);
                 
@@ -88,14 +93,14 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
             }
 
             // Process subdirectories (collections)
-            var subdirectories = await _fileSystemAdapter.GetSubdirectoriesAsync(sourceDirectory);
+            var subdirectories = await _fileSystemAdapter.GetSubdirectoriesAsync(request.SourceDirectory);
             foreach (var subdirectory in subdirectories)
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
                 var result = await ProcessCollectionAsync(
                     subdirectory, 
-                    targetDirectory, 
+                    request.TargetDirectory, 
                     progressCallback, 
                     namingConflicts, 
                     cancellationToken);

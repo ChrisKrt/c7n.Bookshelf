@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Bookshelf.Application.Api;
+using Bookshelf.Application.Api.Dtos;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -90,9 +91,12 @@ public sealed class ConsolidateCommand : AsyncCommand<ConsolidateSettings>
                     task.Description = $"[green]{message}[/]";
                 });
 
-                return await _consolidationService.ConsolidateAsync(
+                var request = new ConsolidationRequest(
                     settings.SourceDirectory,
-                    settings.TargetDirectory,
+                    settings.TargetDirectory);
+
+                return await _consolidationService.ConsolidateAsync(
+                    request,
                     progressReporter,
                     cancellationToken);
             });
