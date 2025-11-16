@@ -8,7 +8,7 @@
 ### {{ change_key }}{% if change_key == "Feature" %}(s){% elif change_key == "Bug Fix" %}(es){% endif %}
 
 {% for change in changes %}
-- [#{{ change.issue_number }}](https://github.com/ChrisKrt/c7n.Bookshelf/issues/{{ change.issue_number }}): {{ change.message }}
+- [#{{ change.ticket_number }}](https://github.com/ChrisKrt/c7n.Bookshelf/issues/{{ change.ticket_number }}): {{ change.message }}{% if change.user_story_number %} (US-{{ change.user_story_number }}){% endif %}
 {% endfor %}
 {% endif %}
 {% endfor %}
