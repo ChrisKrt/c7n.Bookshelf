@@ -1,0 +1,470 @@
+2025-11-16 17:35:21.891 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:35:22.301 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:35:22.545 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:35:22.786 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:35:23.030 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:35:23.283 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:21.201 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:21.388 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_09qprd4h/source to /tmp/bookshelf_test_09qprd4h/target
+2025-11-16 17:36:21.396 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:36:21.399 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 0
+2025-11-16 17:36:29.397 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:29.581 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_npztv9ah/source to /tmp/bookshelf_test_npztv9ah/target
+2025-11-16 17:36:29.588 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:36:29.591 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 0
+2025-11-16 17:36:29.728 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:29.909 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_kmp4_8oq/source to /tmp/bookshelf_test_kmp4_8oq/target
+2025-11-16 17:36:30.087 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_kmp4_8oq/target/Collection1.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:30.275 +00:00 [ERR] Failed to merge collection: Collection1
+2025-11-16 17:36:30.276 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_kmp4_8oq/target/Collection2.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:30.277 +00:00 [ERR] Failed to merge collection: Collection2
+2025-11-16 17:36:30.277 +00:00 [INF] Consolidation completed. Total: 0, Individual: 0, Merged: 0, Conflicts: 0
+2025-11-16 17:36:30.414 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:30.596 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_fiptsgnw/source to /tmp/bookshelf_test_fiptsgnw/target
+2025-11-16 17:36:30.604 +00:00 [DBG] Copied individual PDF: standalone.pdf
+2025-11-16 17:36:30.681 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_fiptsgnw/target/MultiPartBook.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:30.690 +00:00 [ERR] Failed to merge collection: MultiPartBook
+2025-11-16 17:36:30.690 +00:00 [INF] Consolidation completed. Total: 2, Individual: 2, Merged: 0, Conflicts: 0
+2025-11-16 17:36:30.826 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:31.010 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_r0z2oa2n/source to /tmp/bookshelf_test_r0z2oa2n/target
+2025-11-16 17:36:31.018 +00:00 [DBG] Copied individual PDF: metadata_book.pdf
+2025-11-16 17:36:31.096 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_r0z2oa2n/target/MetadataCollection.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:31.106 +00:00 [ERR] Failed to merge collection: MetadataCollection
+2025-11-16 17:36:31.106 +00:00 [INF] Consolidation completed. Total: 1, Individual: 1, Merged: 0, Conflicts: 0
+2025-11-16 17:36:31.243 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:31.430 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_z35ax5gd/source to /tmp/bookshelf_test_z35ax5gd/target
+2025-11-16 17:36:31.438 +00:00 [DBG] Copied individual PDF: duplicate.pdf
+2025-11-16 17:36:31.441 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 2
+2025-11-16 17:36:31.590 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:36:31.784 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_s4gser7r/source to /tmp/bookshelf_test_s4gser7r/target
+2025-11-16 17:36:31.793 +00:00 [DBG] Copied individual PDF: book0.pdf
+2025-11-16 17:36:31.793 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:36:31.793 +00:00 [DBG] Copied individual PDF: book2.pdf
+2025-11-16 17:36:31.793 +00:00 [DBG] Copied individual PDF: book3.pdf
+2025-11-16 17:36:31.793 +00:00 [DBG] Copied individual PDF: book4.pdf
+2025-11-16 17:36:31.794 +00:00 [DBG] Copied individual PDF: book5.pdf
+2025-11-16 17:36:31.794 +00:00 [DBG] Copied individual PDF: book6.pdf
+2025-11-16 17:36:31.794 +00:00 [DBG] Copied individual PDF: book7.pdf
+2025-11-16 17:36:31.794 +00:00 [DBG] Copied individual PDF: book8.pdf
+2025-11-16 17:36:31.794 +00:00 [DBG] Copied individual PDF: book9.pdf
+2025-11-16 17:36:31.872 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_s4gser7r/target/Collection0.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:31.881 +00:00 [ERR] Failed to merge collection: Collection0
+2025-11-16 17:36:31.883 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_s4gser7r/target/Collection1.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:31.883 +00:00 [ERR] Failed to merge collection: Collection1
+2025-11-16 17:36:31.884 +00:00 [ERR] Error during PDF merge to /tmp/bookshelf_test_s4gser7r/target/Collection2.pdf
+iText.Kernel.Exceptions.PdfException: Unknown PdfException.
+ ---> System.NotSupportedException: Either com.itextpdf:bouncy-castle-adapter or com.itextpdf:bouncy-castle-fips-adapter dependency must be added in order to use BouncyCastleFactoryCreator
+   at iText.Bouncycastleconnector.BouncyCastleDefaultFactory.CreateIDigest(String hashAlgorithm)
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   --- End of inner exception stack trace ---
+   at iText.Kernel.Pdf.SmartModePdfObjectsSerializer..ctor()
+   at iText.Kernel.Pdf.PdfWriter..ctor(Stream os, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename, WriterProperties properties)
+   at iText.Kernel.Pdf.PdfWriter..ctor(String filename)
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.<>c__DisplayClass2_0.<MergePdfsAsync>b__0() in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 44
+   at System.Threading.Tasks.Task`1.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Bookshelf.Infrastructure.Adapters.PdfMerger.MergePdfsAsync(IEnumerable`1 sourcePdfPaths, String outputPdfPath, BookMetadata metadata, CancellationToken cancellationToken) in /home/runner/work/c7n.Bookshelf/c7n.Bookshelf/Application/Bookshelf.Infrastructure/Adapters/PdfMerger.cs:line 33
+2025-11-16 17:36:31.884 +00:00 [ERR] Failed to merge collection: Collection2
+2025-11-16 17:36:31.884 +00:00 [INF] Consolidation completed. Total: 10, Individual: 10, Merged: 0, Conflicts: 0
+2025-11-16 17:37:54.808 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:37:54.991 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_enhsv6n2/source to /tmp/bookshelf_test_enhsv6n2/target
+2025-11-16 17:37:54.999 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:37:55.001 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 0
+2025-11-16 17:37:55.128 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:37:55.311 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_bnblcn6v/source to /tmp/bookshelf_test_bnblcn6v/target
+2025-11-16 17:37:55.375 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_bnblcn6v/source/Collection1/chapter1.pdf (1 pages)
+2025-11-16 17:37:55.377 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_bnblcn6v/source/Collection1/chapter2.pdf (1 pages)
+2025-11-16 17:37:55.397 +00:00 [INF] Merged collection Collection1 with 2 PDFs
+2025-11-16 17:37:55.398 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_bnblcn6v/source/Collection2/part1.pdf (1 pages)
+2025-11-16 17:37:55.398 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_bnblcn6v/source/Collection2/part2.pdf (1 pages)
+2025-11-16 17:37:55.399 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_bnblcn6v/source/Collection2/part3.pdf (1 pages)
+2025-11-16 17:37:55.399 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 17:37:55.399 +00:00 [INF] Consolidation completed. Total: 2, Individual: 0, Merged: 2, Conflicts: 0
+2025-11-16 17:37:55.524 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:37:55.709 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_9lhf67ss/source to /tmp/bookshelf_test_9lhf67ss/target
+2025-11-16 17:37:55.717 +00:00 [DBG] Copied individual PDF: standalone.pdf
+2025-11-16 17:37:55.769 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_9lhf67ss/source/MultiPartBook/part1.pdf (1 pages)
+2025-11-16 17:37:55.771 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_9lhf67ss/source/MultiPartBook/part2.pdf (1 pages)
+2025-11-16 17:37:55.791 +00:00 [INF] Merged collection MultiPartBook with 2 PDFs
+2025-11-16 17:37:55.791 +00:00 [INF] Consolidation completed. Total: 3, Individual: 2, Merged: 1, Conflicts: 0
+2025-11-16 17:37:55.922 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:37:56.106 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_eko2l0nk/source to /tmp/bookshelf_test_eko2l0nk/target
+2025-11-16 17:37:56.114 +00:00 [DBG] Copied individual PDF: metadata_book.pdf
+2025-11-16 17:37:56.168 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_eko2l0nk/source/MetadataCollection/chapter1.pdf (2 pages)
+2025-11-16 17:37:56.170 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_eko2l0nk/source/MetadataCollection/chapter2.pdf (2 pages)
+2025-11-16 17:37:56.190 +00:00 [INF] Merged collection MetadataCollection with 2 PDFs
+2025-11-16 17:37:56.190 +00:00 [INF] Consolidation completed. Total: 2, Individual: 1, Merged: 1, Conflicts: 0
+2025-11-16 17:37:56.326 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:37:56.510 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_uzogzmi3/source to /tmp/bookshelf_test_uzogzmi3/target
+2025-11-16 17:37:56.517 +00:00 [DBG] Copied individual PDF: duplicate.pdf
+2025-11-16 17:37:56.520 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 2
+2025-11-16 17:37:56.662 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:37:56.843 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_8wf2tumv/source to /tmp/bookshelf_test_8wf2tumv/target
+2025-11-16 17:37:56.852 +00:00 [DBG] Copied individual PDF: book0.pdf
+2025-11-16 17:37:56.852 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:37:56.852 +00:00 [DBG] Copied individual PDF: book2.pdf
+2025-11-16 17:37:56.852 +00:00 [DBG] Copied individual PDF: book3.pdf
+2025-11-16 17:37:56.853 +00:00 [DBG] Copied individual PDF: book4.pdf
+2025-11-16 17:37:56.853 +00:00 [DBG] Copied individual PDF: book5.pdf
+2025-11-16 17:37:56.853 +00:00 [DBG] Copied individual PDF: book6.pdf
+2025-11-16 17:37:56.853 +00:00 [DBG] Copied individual PDF: book7.pdf
+2025-11-16 17:37:56.853 +00:00 [DBG] Copied individual PDF: book8.pdf
+2025-11-16 17:37:56.853 +00:00 [DBG] Copied individual PDF: book9.pdf
+2025-11-16 17:37:56.905 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection0/part0.pdf (1 pages)
+2025-11-16 17:37:56.907 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection0/part1.pdf (1 pages)
+2025-11-16 17:37:56.907 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection0/part2.pdf (1 pages)
+2025-11-16 17:37:56.927 +00:00 [INF] Merged collection Collection0 with 3 PDFs
+2025-11-16 17:37:56.928 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection1/part0.pdf (1 pages)
+2025-11-16 17:37:56.929 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection1/part1.pdf (1 pages)
+2025-11-16 17:37:56.929 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection1/part2.pdf (1 pages)
+2025-11-16 17:37:56.929 +00:00 [INF] Merged collection Collection1 with 3 PDFs
+2025-11-16 17:37:56.930 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection2/part0.pdf (1 pages)
+2025-11-16 17:37:56.930 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection2/part1.pdf (1 pages)
+2025-11-16 17:37:56.931 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_8wf2tumv/source/Collection2/part2.pdf (1 pages)
+2025-11-16 17:37:56.931 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 17:37:56.931 +00:00 [INF] Consolidation completed. Total: 13, Individual: 10, Merged: 3, Conflicts: 0
+2025-11-16 17:45:02.452 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:45:02.633 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_hcl8bwnj/source to /tmp/bookshelf_test_hcl8bwnj/target
+2025-11-16 17:45:02.641 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:45:02.643 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 0
+2025-11-16 17:45:10.299 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:45:10.480 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_ua6q0g1a/source to /tmp/bookshelf_test_ua6q0g1a/target
+2025-11-16 17:45:10.488 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:45:10.490 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 0
+2025-11-16 17:45:10.599 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:45:10.780 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_zhepqjij/source to /tmp/bookshelf_test_zhepqjij/target
+2025-11-16 17:45:10.837 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_zhepqjij/source/Collection1/chapter1.pdf (1 pages)
+2025-11-16 17:45:10.839 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_zhepqjij/source/Collection1/chapter2.pdf (1 pages)
+2025-11-16 17:45:10.859 +00:00 [INF] Merged collection Collection1 with 2 PDFs
+2025-11-16 17:45:10.860 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_zhepqjij/source/Collection2/part1.pdf (1 pages)
+2025-11-16 17:45:10.861 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_zhepqjij/source/Collection2/part2.pdf (1 pages)
+2025-11-16 17:45:10.861 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_zhepqjij/source/Collection2/part3.pdf (1 pages)
+2025-11-16 17:45:10.861 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 17:45:10.861 +00:00 [INF] Consolidation completed. Total: 2, Individual: 0, Merged: 2, Conflicts: 0
+2025-11-16 17:45:10.974 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:45:11.159 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_a9qkw3ii/source to /tmp/bookshelf_test_a9qkw3ii/target
+2025-11-16 17:45:11.166 +00:00 [DBG] Copied individual PDF: standalone.pdf
+2025-11-16 17:45:11.219 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_a9qkw3ii/source/MultiPartBook/part1.pdf (1 pages)
+2025-11-16 17:45:11.221 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_a9qkw3ii/source/MultiPartBook/part2.pdf (1 pages)
+2025-11-16 17:45:11.241 +00:00 [INF] Merged collection MultiPartBook with 2 PDFs
+2025-11-16 17:45:11.241 +00:00 [INF] Consolidation completed. Total: 3, Individual: 2, Merged: 1, Conflicts: 0
+2025-11-16 17:45:11.352 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:45:11.537 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_gj0dsjk6/source to /tmp/bookshelf_test_gj0dsjk6/target
+2025-11-16 17:45:11.544 +00:00 [DBG] Copied individual PDF: metadata_book.pdf
+2025-11-16 17:45:11.596 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_gj0dsjk6/source/MetadataCollection/chapter1.pdf (2 pages)
+2025-11-16 17:45:11.598 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_gj0dsjk6/source/MetadataCollection/chapter2.pdf (2 pages)
+2025-11-16 17:45:11.618 +00:00 [INF] Merged collection MetadataCollection with 2 PDFs
+2025-11-16 17:45:11.618 +00:00 [INF] Consolidation completed. Total: 2, Individual: 1, Merged: 1, Conflicts: 0
+2025-11-16 17:45:11.726 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:45:11.905 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_brxac90h/source to /tmp/bookshelf_test_brxac90h/target
+2025-11-16 17:45:11.913 +00:00 [DBG] Copied individual PDF: duplicate.pdf
+2025-11-16 17:45:11.916 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 2
+2025-11-16 17:45:12.036 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:45:12.218 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_djm01w42/source to /tmp/bookshelf_test_djm01w42/target
+2025-11-16 17:45:12.227 +00:00 [DBG] Copied individual PDF: book0.pdf
+2025-11-16 17:45:12.227 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:45:12.227 +00:00 [DBG] Copied individual PDF: book2.pdf
+2025-11-16 17:45:12.227 +00:00 [DBG] Copied individual PDF: book3.pdf
+2025-11-16 17:45:12.227 +00:00 [DBG] Copied individual PDF: book4.pdf
+2025-11-16 17:45:12.227 +00:00 [DBG] Copied individual PDF: book5.pdf
+2025-11-16 17:45:12.228 +00:00 [DBG] Copied individual PDF: book6.pdf
+2025-11-16 17:45:12.228 +00:00 [DBG] Copied individual PDF: book7.pdf
+2025-11-16 17:45:12.228 +00:00 [DBG] Copied individual PDF: book8.pdf
+2025-11-16 17:45:12.228 +00:00 [DBG] Copied individual PDF: book9.pdf
+2025-11-16 17:45:12.280 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_djm01w42/source/Collection0/part0.pdf (1 pages)
+2025-11-16 17:45:12.282 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_djm01w42/source/Collection0/part1.pdf (1 pages)
+2025-11-16 17:45:12.282 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_djm01w42/source/Collection0/part2.pdf (1 pages)
+2025-11-16 17:45:12.302 +00:00 [INF] Merged collection Collection0 with 3 PDFs
+2025-11-16 17:45:12.304 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_djm01w42/source/Collection1/part0.pdf (1 pages)
+2025-11-16 17:45:12.304 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_djm01w42/source/Collection1/part1.pdf (1 pages)
+2025-11-16 17:45:12.304 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_djm01w42/source/Collection1/part2.pdf (1 pages)
+2025-11-16 17:45:12.305 +00:00 [INF] Merged collection Collection1 with 3 PDFs
+2025-11-16 17:45:12.305 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_djm01w42/source/Collection2/part0.pdf (1 pages)
+2025-11-16 17:45:12.306 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_djm01w42/source/Collection2/part1.pdf (1 pages)
+2025-11-16 17:45:12.306 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_djm01w42/source/Collection2/part2.pdf (1 pages)
+2025-11-16 17:45:12.306 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 17:45:12.306 +00:00 [INF] Consolidation completed. Total: 13, Individual: 10, Merged: 3, Conflicts: 0
+2025-11-16 17:59:01.259 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:59:01.618 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_hec9c11m/source to /tmp/bookshelf_test_hec9c11m/target
+2025-11-16 17:59:01.635 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:59:01.639 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 0
+2025-11-16 17:59:01.787 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:59:01.971 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_wp87tkco/source to /tmp/bookshelf_test_wp87tkco/target
+2025-11-16 17:59:02.046 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_wp87tkco/source/Collection1/chapter1.pdf (1 pages)
+2025-11-16 17:59:02.048 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_wp87tkco/source/Collection1/chapter2.pdf (1 pages)
+2025-11-16 17:59:02.068 +00:00 [INF] Merged collection Collection1 with 2 PDFs
+2025-11-16 17:59:02.087 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_wp87tkco/source/Collection2/part1.pdf (1 pages)
+2025-11-16 17:59:02.087 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_wp87tkco/source/Collection2/part2.pdf (1 pages)
+2025-11-16 17:59:02.088 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_wp87tkco/source/Collection2/part3.pdf (1 pages)
+2025-11-16 17:59:02.088 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 17:59:02.088 +00:00 [INF] Consolidation completed. Total: 2, Individual: 0, Merged: 2, Conflicts: 0
+2025-11-16 17:59:02.219 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:59:02.403 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_o6iybi6_/source to /tmp/bookshelf_test_o6iybi6_/target
+2025-11-16 17:59:02.412 +00:00 [DBG] Copied individual PDF: standalone.pdf
+2025-11-16 17:59:02.466 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_o6iybi6_/source/MultiPartBook/part1.pdf (1 pages)
+2025-11-16 17:59:02.468 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_o6iybi6_/source/MultiPartBook/part2.pdf (1 pages)
+2025-11-16 17:59:02.488 +00:00 [INF] Merged collection MultiPartBook with 2 PDFs
+2025-11-16 17:59:02.489 +00:00 [INF] Consolidation completed. Total: 3, Individual: 2, Merged: 1, Conflicts: 0
+2025-11-16 17:59:02.619 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:59:02.808 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_pv9c0uj1/source to /tmp/bookshelf_test_pv9c0uj1/target
+2025-11-16 17:59:02.817 +00:00 [DBG] Copied individual PDF: metadata_book.pdf
+2025-11-16 17:59:02.871 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_pv9c0uj1/source/MetadataCollection/chapter1.pdf (2 pages)
+2025-11-16 17:59:02.873 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_pv9c0uj1/source/MetadataCollection/chapter2.pdf (2 pages)
+2025-11-16 17:59:02.894 +00:00 [INF] Merged collection MetadataCollection with 2 PDFs
+2025-11-16 17:59:02.894 +00:00 [INF] Consolidation completed. Total: 2, Individual: 1, Merged: 1, Conflicts: 0
+2025-11-16 17:59:03.029 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:59:03.216 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_c4qv21bn/source to /tmp/bookshelf_test_c4qv21bn/target
+2025-11-16 17:59:03.225 +00:00 [DBG] Copied individual PDF: duplicate.pdf
+2025-11-16 17:59:03.228 +00:00 [WRN] Naming conflict detected for duplicate.pdf, using duplicate_1.pdf
+2025-11-16 17:59:03.229 +00:00 [WRN] Naming conflict detected for duplicate.pdf, using duplicate_2.pdf
+2025-11-16 17:59:03.229 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 2
+2025-11-16 17:59:03.374 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 17:59:03.561 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_1h4mx8f7/source to /tmp/bookshelf_test_1h4mx8f7/target
+2025-11-16 17:59:03.571 +00:00 [DBG] Copied individual PDF: book0.pdf
+2025-11-16 17:59:03.572 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 17:59:03.572 +00:00 [DBG] Copied individual PDF: book2.pdf
+2025-11-16 17:59:03.572 +00:00 [DBG] Copied individual PDF: book3.pdf
+2025-11-16 17:59:03.572 +00:00 [DBG] Copied individual PDF: book4.pdf
+2025-11-16 17:59:03.572 +00:00 [DBG] Copied individual PDF: book5.pdf
+2025-11-16 17:59:03.572 +00:00 [DBG] Copied individual PDF: book6.pdf
+2025-11-16 17:59:03.573 +00:00 [DBG] Copied individual PDF: book7.pdf
+2025-11-16 17:59:03.573 +00:00 [DBG] Copied individual PDF: book8.pdf
+2025-11-16 17:59:03.573 +00:00 [DBG] Copied individual PDF: book9.pdf
+2025-11-16 17:59:03.627 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_1h4mx8f7/source/Collection0/part0.pdf (1 pages)
+2025-11-16 17:59:03.629 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_1h4mx8f7/source/Collection0/part1.pdf (1 pages)
+2025-11-16 17:59:03.629 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_1h4mx8f7/source/Collection0/part2.pdf (1 pages)
+2025-11-16 17:59:03.649 +00:00 [INF] Merged collection Collection0 with 3 PDFs
+2025-11-16 17:59:03.651 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_1h4mx8f7/source/Collection1/part0.pdf (1 pages)
+2025-11-16 17:59:03.652 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_1h4mx8f7/source/Collection1/part1.pdf (1 pages)
+2025-11-16 17:59:03.652 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_1h4mx8f7/source/Collection1/part2.pdf (1 pages)
+2025-11-16 17:59:03.652 +00:00 [INF] Merged collection Collection1 with 3 PDFs
+2025-11-16 17:59:03.653 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_1h4mx8f7/source/Collection2/part0.pdf (1 pages)
+2025-11-16 17:59:03.653 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_1h4mx8f7/source/Collection2/part1.pdf (1 pages)
+2025-11-16 17:59:03.654 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_1h4mx8f7/source/Collection2/part2.pdf (1 pages)
+2025-11-16 17:59:03.654 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 17:59:03.654 +00:00 [INF] Consolidation completed. Total: 13, Individual: 10, Merged: 3, Conflicts: 0
+2025-11-16 18:02:56.454 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:02:56.637 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_y03so0s5/source to /tmp/bookshelf_test_y03so0s5/target
+2025-11-16 18:02:56.646 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 18:02:56.650 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 0
+2025-11-16 18:02:56.777 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:02:56.960 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_36c1e6qe/source to /tmp/bookshelf_test_36c1e6qe/target
+2025-11-16 18:02:57.020 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_36c1e6qe/source/Collection1/chapter1.pdf (1 pages)
+2025-11-16 18:02:57.022 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_36c1e6qe/source/Collection1/chapter2.pdf (1 pages)
+2025-11-16 18:02:57.042 +00:00 [INF] Merged collection Collection1 with 2 PDFs
+2025-11-16 18:02:57.044 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_36c1e6qe/source/Collection2/part1.pdf (1 pages)
+2025-11-16 18:02:57.044 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_36c1e6qe/source/Collection2/part2.pdf (1 pages)
+2025-11-16 18:02:57.045 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_36c1e6qe/source/Collection2/part3.pdf (1 pages)
+2025-11-16 18:02:57.045 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 18:02:57.045 +00:00 [INF] Consolidation completed. Total: 2, Individual: 0, Merged: 2, Conflicts: 0
+2025-11-16 18:02:57.175 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:02:57.357 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_ji912pes/source to /tmp/bookshelf_test_ji912pes/target
+2025-11-16 18:02:57.366 +00:00 [DBG] Copied individual PDF: standalone.pdf
+2025-11-16 18:02:57.419 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_ji912pes/source/MultiPartBook/part1.pdf (1 pages)
+2025-11-16 18:02:57.421 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_ji912pes/source/MultiPartBook/part2.pdf (1 pages)
+2025-11-16 18:02:57.441 +00:00 [INF] Merged collection MultiPartBook with 2 PDFs
+2025-11-16 18:02:57.442 +00:00 [INF] Consolidation completed. Total: 3, Individual: 2, Merged: 1, Conflicts: 0
+2025-11-16 18:02:57.574 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:02:57.756 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_r7qrqwdg/source to /tmp/bookshelf_test_r7qrqwdg/target
+2025-11-16 18:02:57.764 +00:00 [DBG] Copied individual PDF: metadata_book.pdf
+2025-11-16 18:02:57.818 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_r7qrqwdg/source/MetadataCollection/chapter1.pdf (2 pages)
+2025-11-16 18:02:57.820 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_r7qrqwdg/source/MetadataCollection/chapter2.pdf (2 pages)
+2025-11-16 18:02:57.839 +00:00 [INF] Merged collection MetadataCollection with 2 PDFs
+2025-11-16 18:02:57.840 +00:00 [INF] Consolidation completed. Total: 2, Individual: 1, Merged: 1, Conflicts: 0
+2025-11-16 18:02:57.972 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:02:58.155 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_tq28h_tq/source to /tmp/bookshelf_test_tq28h_tq/target
+2025-11-16 18:02:58.164 +00:00 [DBG] Copied individual PDF: duplicate.pdf
+2025-11-16 18:02:58.167 +00:00 [WRN] Naming conflict detected for duplicate.pdf, using duplicate_1.pdf
+2025-11-16 18:02:58.168 +00:00 [WRN] Naming conflict detected for duplicate.pdf, using duplicate_2.pdf
+2025-11-16 18:02:58.168 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 2
+2025-11-16 18:02:58.306 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:02:58.488 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_hkxud_1f/source to /tmp/bookshelf_test_hkxud_1f/target
+2025-11-16 18:02:58.497 +00:00 [DBG] Copied individual PDF: book0.pdf
+2025-11-16 18:02:58.497 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 18:02:58.497 +00:00 [DBG] Copied individual PDF: book2.pdf
+2025-11-16 18:02:58.497 +00:00 [DBG] Copied individual PDF: book3.pdf
+2025-11-16 18:02:58.498 +00:00 [DBG] Copied individual PDF: book4.pdf
+2025-11-16 18:02:58.498 +00:00 [DBG] Copied individual PDF: book5.pdf
+2025-11-16 18:02:58.498 +00:00 [DBG] Copied individual PDF: book6.pdf
+2025-11-16 18:02:58.498 +00:00 [DBG] Copied individual PDF: book7.pdf
+2025-11-16 18:02:58.498 +00:00 [DBG] Copied individual PDF: book8.pdf
+2025-11-16 18:02:58.498 +00:00 [DBG] Copied individual PDF: book9.pdf
+2025-11-16 18:02:58.551 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_hkxud_1f/source/Collection0/part0.pdf (1 pages)
+2025-11-16 18:02:58.554 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_hkxud_1f/source/Collection0/part1.pdf (1 pages)
+2025-11-16 18:02:58.554 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_hkxud_1f/source/Collection0/part2.pdf (1 pages)
+2025-11-16 18:02:58.573 +00:00 [INF] Merged collection Collection0 with 3 PDFs
+2025-11-16 18:02:58.575 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_hkxud_1f/source/Collection1/part0.pdf (1 pages)
+2025-11-16 18:02:58.575 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_hkxud_1f/source/Collection1/part1.pdf (1 pages)
+2025-11-16 18:02:58.576 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_hkxud_1f/source/Collection1/part2.pdf (1 pages)
+2025-11-16 18:02:58.576 +00:00 [INF] Merged collection Collection1 with 3 PDFs
+2025-11-16 18:02:58.577 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_hkxud_1f/source/Collection2/part0.pdf (1 pages)
+2025-11-16 18:02:58.577 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_hkxud_1f/source/Collection2/part1.pdf (1 pages)
+2025-11-16 18:02:58.577 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_hkxud_1f/source/Collection2/part2.pdf (1 pages)
+2025-11-16 18:02:58.578 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 18:02:58.578 +00:00 [INF] Consolidation completed. Total: 13, Individual: 10, Merged: 3, Conflicts: 0
+2025-11-16 18:13:49.093 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:13:49.440 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_rhg19p96/source to /tmp/bookshelf_test_rhg19p96/target
+2025-11-16 18:13:49.452 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 18:13:49.456 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 0
+2025-11-16 18:13:49.586 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:13:49.760 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_arv8lu_8/source to /tmp/bookshelf_test_arv8lu_8/target
+2025-11-16 18:13:49.831 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_arv8lu_8/source/Collection1/chapter1.pdf (1 pages)
+2025-11-16 18:13:49.833 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_arv8lu_8/source/Collection1/chapter2.pdf (1 pages)
+2025-11-16 18:13:49.852 +00:00 [INF] Merged collection Collection1 with 2 PDFs
+2025-11-16 18:13:49.883 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_arv8lu_8/source/Collection2/part1.pdf (1 pages)
+2025-11-16 18:13:49.884 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_arv8lu_8/source/Collection2/part2.pdf (1 pages)
+2025-11-16 18:13:49.884 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_arv8lu_8/source/Collection2/part3.pdf (1 pages)
+2025-11-16 18:13:49.884 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 18:13:49.884 +00:00 [INF] Consolidation completed. Total: 2, Individual: 0, Merged: 2, Conflicts: 0
+2025-11-16 18:13:50.002 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:13:50.175 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_pu1a15y9/source to /tmp/bookshelf_test_pu1a15y9/target
+2025-11-16 18:13:50.184 +00:00 [DBG] Copied individual PDF: standalone.pdf
+2025-11-16 18:13:50.236 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_pu1a15y9/source/MultiPartBook/part1.pdf (1 pages)
+2025-11-16 18:13:50.238 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_pu1a15y9/source/MultiPartBook/part2.pdf (1 pages)
+2025-11-16 18:13:50.257 +00:00 [INF] Merged collection MultiPartBook with 2 PDFs
+2025-11-16 18:13:50.258 +00:00 [INF] Consolidation completed. Total: 3, Individual: 2, Merged: 1, Conflicts: 0
+2025-11-16 18:13:50.375 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:13:50.549 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_e220rxco/source to /tmp/bookshelf_test_e220rxco/target
+2025-11-16 18:13:50.557 +00:00 [DBG] Copied individual PDF: metadata_book.pdf
+2025-11-16 18:13:50.611 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_e220rxco/source/MetadataCollection/chapter1.pdf (2 pages)
+2025-11-16 18:13:50.613 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_e220rxco/source/MetadataCollection/chapter2.pdf (2 pages)
+2025-11-16 18:13:50.632 +00:00 [INF] Merged collection MetadataCollection with 2 PDFs
+2025-11-16 18:13:50.632 +00:00 [INF] Consolidation completed. Total: 2, Individual: 1, Merged: 1, Conflicts: 0
+2025-11-16 18:13:50.746 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:13:50.919 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_nc569l9_/source to /tmp/bookshelf_test_nc569l9_/target
+2025-11-16 18:13:50.927 +00:00 [DBG] Copied individual PDF: duplicate.pdf
+2025-11-16 18:13:50.931 +00:00 [WRN] Naming conflict detected for duplicate.pdf, using duplicate_1.pdf
+2025-11-16 18:13:50.931 +00:00 [WRN] Naming conflict detected for duplicate.pdf, using duplicate_2.pdf
+2025-11-16 18:13:50.931 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 2
+2025-11-16 18:13:51.060 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:13:51.232 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_dgh5mljm/source to /tmp/bookshelf_test_dgh5mljm/target
+2025-11-16 18:13:51.242 +00:00 [DBG] Copied individual PDF: book0.pdf
+2025-11-16 18:13:51.242 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book2.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book3.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book4.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book5.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book6.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book7.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book8.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book9.pdf
+2025-11-16 18:13:51.295 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection0/part0.pdf (1 pages)
+2025-11-16 18:13:51.297 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection0/part1.pdf (1 pages)
+2025-11-16 18:13:51.297 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection0/part2.pdf (1 pages)
+2025-11-16 18:13:51.316 +00:00 [INF] Merged collection Collection0 with 3 PDFs
+2025-11-16 18:13:51.318 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection1/part0.pdf (1 pages)
+2025-11-16 18:13:51.318 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection1/part1.pdf (1 pages)
+2025-11-16 18:13:51.318 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection1/part2.pdf (1 pages)
+2025-11-16 18:13:51.319 +00:00 [INF] Merged collection Collection1 with 3 PDFs
+2025-11-16 18:13:51.319 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection2/part0.pdf (1 pages)
+2025-11-16 18:13:51.320 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection2/part1.pdf (1 pages)
+2025-11-16 18:13:51.320 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection2/part2.pdf (1 pages)
+2025-11-16 18:13:51.320 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 18:13:51.320 +00:00 [INF] Consolidation completed. Total: 13, Individual: 10, Merged: 3, Conflicts: 0

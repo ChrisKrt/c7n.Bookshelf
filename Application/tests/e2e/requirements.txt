@@ -1,0 +1,5 @@
+behave==1.2.6
+pytest==8.3.4
+pytest-bdd==8.0.0
+reportlab==4.2.5
+pypdf==5.1.0

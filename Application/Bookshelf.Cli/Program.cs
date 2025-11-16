@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+﻿using Bookshelf.Application;
+using Bookshelf.Cli.Commands;
+using Bookshelf.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
+using Spectre.Console.Cli;
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
@@ -21,19 +23,38 @@ try
 {
     Log.Information("Starting Bookshelf CLI application");
 
-    // Create and configure the host
-    var host = Host.CreateDefaultBuilder(args)
-        .UseSerilog() // Add Serilog to the host
-        .ConfigureServices((hostContext, services) =>
-        {
-            // Register your services here
-            // Example: services.AddTransient<IMyService, MyService>();
+    // Create service collection and register services
+    var services = new ServiceCollection();
+    
+    // Register logging
+    services.AddLogging(loggingBuilder =>
+    {
+        loggingBuilder.AddSerilog(dispose: true);
+    });
+    
+    // Register application and infrastructure services
+    services.AddApplicationServices();
+    services.AddInfrastructureServices();
+    
+    // Register commands
+    services.AddTransient<ConsolidateCommand>();
+    
+    // Build service provider
+    var serviceProvider = services.BuildServiceProvider();
 
-            // Register the main application service
-        })
-        .Build();
+    // Create and configure the command app
+    var app = new CommandApp(new TypeRegistrar(serviceProvider));
+    
+    app.Configure(config =>
+    {
+        config.SetApplicationName("bookshelf");
+        
+        config.AddCommand<ConsolidateCommand>("consolidate")
+            .WithDescription("Consolidate scattered PDF files into a single bookshelf")
+            .WithExample("consolidate", "/path/to/source", "/path/to/bookshelf");
+    });
 
-    await host.RunAsync();
+    return await app.RunAsync(args);
 }
 catch (Exception ex)
 {
@@ -45,4 +66,61 @@ finally
     await Log.CloseAndFlushAsync();
 }
 
-return 0;
+/// <summary>
+/// Type registrar for dependency injection with Spectre.Console.Cli
+/// </summary>
+internal sealed class TypeRegistrar : ITypeRegistrar
+{
+    private readonly IServiceProvider _serviceProvider;
+
+    public TypeRegistrar(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+    }
+
+    public ITypeResolver Build()
+    {
+        return new TypeResolver(_serviceProvider);
+    }
+
+    public void Register(Type service, Type implementation)
+    {
+        // Not used in this implementation
+    }
+
+    public void RegisterInstance(Type service, object implementation)
+    {
+        // Not used in this implementation
+    }
+
+    public void RegisterLazy(Type service, Func<object> factory)
+    {
+        // Not used in this implementation
+    }
+}
+
+/// <summary>
+/// Type resolver for dependency injection with Spectre.Console.Cli
+/// </summary>
+internal sealed class TypeResolver : ITypeResolver
+{
+    private readonly IServiceProvider _serviceProvider;
+
+    public TypeResolver(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+    }
+
+    public object? Resolve(Type? type)
+    {
+        return type == null ? null : _serviceProvider.GetService(type);
+    }
+
+    public void Dispose()
+    {
+        if (_serviceProvider is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+    }
+}
