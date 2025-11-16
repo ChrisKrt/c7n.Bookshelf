@@ -1,0 +1,47 @@
+
+# General
+- every public method or class should have a comment
+- usage of third party libraries happens in a separate file
+- try to restrict the usage of a third party library to a single file
+- every usage of a third party library is wrapped in a try-catch block
+- use descriptive variable and function names
+- do not use primitive obsession, always use objects to encapsulate related data
+- do not pass primitive types as parameters, always use objects to encapsulate related data
+- avoid using magic numbers, use constants instead
+- use async/await for asynchronous operations
+- avoid using global variables, encapsulate code in modules or classes
+- use Guard Clauses for public methods to handle invalid input early
+- use early returns to reduce nesting
+- for private methods use debug.assert (c#) or console.assert (javascript) for preconditions to ensure that the method is called with valid parameters
+- for private methods use debug.assert (c#) or console.assert (javascript) for postconditions to ensure that the method is left with valid parameters
+- use descriptive error messages in exceptions
+- use clean architecture principles to separate concerns
+- use dependency injection to decouple components
+- use interfaces to define contracts for classes which are publicly exposed (e.g. application services, repositories)
+- the dependency flow should always point inwards (from outer layers to inner layers)
+- write unit tests for public methods
+- name classes, files, methods, and variables in English
+- name classes, files, methods, and variables with descriptive names that reflect their purpose (domain related)
+- private methods should be static methods
+- use domain driven design principles to model the domain
+- domain related logic should be encapsulated in domain entities
+- domain logic does mostly not need interfaces, despite for the strategy pattern
+- use SOLID principles to design classes
+- use Test Driven Development (TDD) to develop new features
+- use Gherkin for acceptance criteria tests
+- if the feature is UI related, use Behavior Driven Development (BDD) to define the behavior of the UI
+- use Gherkin syntax to define the behavior of the UI, with scenarios written in a Given-When-Then format
+- write gherkin steps in a step file (gather all available steps in a single file)
+- write gherkin thens in a then file (gather all available thens in a single file)
+- write gherkin givens in a given file (gather all available givens in a single file)
+- write gherkin test scenarios in a scenario file (use the step, then, and given files to define the behavior of the UI)
+- consider the defined constraints as stated in the ticket description
+- Configuration happens via environment variables
+- follow the 12-factor app principles
+- always use https / tls for communication when developing a web application
+- we use dependency injection to decouple components
+- cross cutting concerns are handled in a separate module/project named aspects
+- cross cutting concerns include logging, caching, authentication, authorization, and error handling, notifications
+- Notifications / Alerts / Messages to the user are handled by a frontend project
+- Keep methods/functions flat, they should not have a high cyclomatic complexity
+- Use the commitizen command line tool to create commit messages (e.g. `cz commit`)

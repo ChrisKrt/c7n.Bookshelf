@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "nwpM1dEl6Qs=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\chris\\Workspaces_SpikeSolutions\\BookShelf\\Application\\Bookshelf.Infrastructure\\Bookshelf.Infrastructure.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\chris\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.10\\microsoft.netcore.app.ref.9.0.10.nupkg.sha512",
+    "C:\\Users\\chris\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.10\\microsoft.windowsdesktop.app.ref.9.0.10.nupkg.sha512",
+    "C:\\Users\\chris\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.10\\microsoft.aspnetcore.app.ref.9.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}

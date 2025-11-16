@@ -1,0 +1,117 @@
+# CLI Command Mockup: Bookshelf Consolidation
+
+## Basic Usage
+
+```bash
+bookshelf consolidate --source "C:\Users\Documents\Books" --target "C:\Users\BookShelf"
+```
+
+## With Progress Output
+
+```bash
+PS C:\> bookshelf consolidate --source "C:\MyBooks" --target "C:\ConsolidatedBookshelf"
+
+Bookshelf Consolidation Starting...
+Source: C:\MyBooks
+Target: C:\ConsolidatedBookshelf
+
+Scanning source directory...
+Found: 45 PDF files, 12 collection folders
+
+Processing:
+[✓] Copying individual file: "Clean Code.pdf"
+[✓] Copying individual file: "Design Patterns.pdf"
+[⚙] Merging collection: "The Art of Computer Programming" (5 files)
+    - Merging: Volume 1.pdf
+    - Merging: Volume 2.pdf
+    - Merging: Volume 3.pdf
+    - Merging: Volume 4A.pdf
+    - Merging: Volume 4B.pdf
+[✓] Created: "The Art of Computer Programming.pdf" (1,234 pages)
+[✓] Copying individual file: "Refactoring.pdf"
+[⚙] Merging collection: "SICP" (2 files)
+    - Merging: SICP-Part1.pdf
+    - Merging: SICP-Part2.pdf
+[✓] Created: "SICP.pdf" (654 pages)
+[!] Naming conflict detected: "Programming.pdf" already exists
+    Renamed to: "Programming_2.pdf"
+...
+
+Consolidation Complete!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Summary:
+  • Individual files copied: 45
+  • Collections merged: 12
+  • Total books in bookshelf: 57
+  • Naming conflicts resolved: 1
+  • Duration: 2m 34s
+
+Bookshelf location: C:\ConsolidatedBookshelf
+```
+
+## Command Options
+
+```bash
+# Dry run mode (preview without executing)
+bookshelf consolidate --source "C:\Books" --target "C:\Bookshelf" --dry-run
+
+# Verbose mode for detailed logging
+bookshelf consolidate --source "C:\Books" --target "C:\Bookshelf" --verbose
+
+# Custom naming strategy for conflicts
+bookshelf consolidate --source "C:\Books" --target "C:\Bookshelf" --conflict-strategy hash
+
+# Exclude specific patterns
+bookshelf consolidate --source "C:\Books" --target "C:\Bookshelf" --exclude "*.tmp,draft_*"
+
+# Preserve folder structure (alternative mode)
+bookshelf consolidate --source "C:\Books" --target "C:\Bookshelf" --keep-structure
+```
+
+## Help Output
+
+```bash
+PS C:\> bookshelf consolidate --help
+
+Usage: bookshelf consolidate [OPTIONS]
+
+Consolidate scattered PDF files and collections into a single bookshelf folder.
+
+Options:
+  -s, --source <PATH>              Source directory containing PDF files and collections (required)
+  -t, --target <PATH>              Target bookshelf directory (required)
+  -d, --dry-run                    Preview operations without executing
+  -v, --verbose                    Enable detailed logging
+  -c, --conflict-strategy <MODE>   Strategy for naming conflicts: counter, hash, prompt (default: counter)
+  -e, --exclude <PATTERNS>         Comma-separated patterns to exclude
+  -k, --keep-structure             Preserve original folder structure (don't flatten)
+  --merge-order <ORDER>            Order for merging PDFs: alphabetical, date, natural (default: natural)
+  -h, --help                       Show this help message
+
+Examples:
+  bookshelf consolidate --source "C:\Books" --target "C:\MyLibrary"
+  bookshelf consolidate -s "C:\Books" -t "C:\Library" --dry-run
+  bookshelf consolidate -s "C:\Books" -t "C:\Library" --exclude "draft_*,*.bak"
+```
+
+## Error Scenarios
+
+```bash
+# Missing required arguments
+PS C:\> bookshelf consolidate --source "C:\Books"
+Error: Missing required option '--target'
+
+# Source directory doesn't exist
+PS C:\> bookshelf consolidate --source "C:\NonExistent" --target "C:\Bookshelf"
+Error: Source directory not found: C:\NonExistent
+
+# Target directory not empty (safety check)
+PS C:\> bookshelf consolidate --source "C:\Books" --target "C:\ExistingFolder"
+Warning: Target directory is not empty. Continue? [y/N]: n
+Operation cancelled.
+
+# Insufficient permissions
+PS C:\> bookshelf consolidate --source "C:\Books" --target "C:\Program Files\Bookshelf"
+Error: Insufficient permissions to write to target directory.
+Please choose a different location or run with elevated privileges.
+```

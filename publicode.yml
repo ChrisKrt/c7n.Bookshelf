@@ -1,0 +1,34 @@
+publiccodeYmlVersion: "0.4"
+name: c7n.Bookshelf
+url: https://github.com/ChrisKrt/c7n.Bookshelf
+platforms:
+  - Windows
+  - Linux
+categories:
+  - organization
+  - productivity
+developmentStatus: development
+
+landingURL: https://github.com/ChrisKrt/c7n.Bookshelf
+logo: https://github.com/ChrisKrt/c7n.Bookshelf/blob/main/bookshelf_logo.svg
+# roadmap: https://github.com/users/ChrisKrt/projects/7/views/10
+softwareType: "standalone/other"
+softwareVersion: "0.0.1"
+releaseDate: "2025-11-16"
+
+description:
+  en:
+    shortDescription: This command line tool helps you organize and manage your book collection efficiently.
+legal:
+  license: MIT
+maintenance:
+  type: internal
+  contacts:
+    - name: "ChrisKrt"
+
+localisation:
+  localisationReady: false
+  availableLanguages:
+    - en
+
+creationDate: 2025-11-16

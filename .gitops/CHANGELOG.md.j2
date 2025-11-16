@@ -1,0 +1,15 @@
+{% for entry in tree %}
+
+## {{ entry.version }}{% if entry.date %} ({{ entry.date }}){% endif %}
+
+{% for change_key, changes in entry.changes.items() %}
+
+{% if change_key %}
+### {{ change_key }}{% if change_key == "Feature" %}(s){% elif change_key == "Bug Fix" %}(es){% endif %}
+
+{% for change in changes %}
+- [#{{ change.issue_number }}](https://github.com/ChrisKrt/c7n.Bookshelf/issues/{{ change.issue_number }}): {{ change.message }}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endfor %}
