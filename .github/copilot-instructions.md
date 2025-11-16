@@ -97,7 +97,7 @@ When working with C# files (`**/*.{cs,csproj,sln,slnx}`):
 - Each module adds its own services to the DI container
 - The composition root is in the frontend project
 
-See [C# Instructions](.github/instructions/csharp.instructions.md) for detailed guidelines.
+See [C# Instructions](instructions/csharp.instructions.md) for detailed guidelines.
 
 ## Docker Guidelines
 
@@ -109,7 +109,7 @@ When working with Docker files (`docker-compose.yml`, `*.docker-compose.yml`, `D
 - Always use HTTPS/TLS for communication between services
 - Never use latest tags; always use specific version tags
 
-See [Docker Instructions](.github/instructions/docker.instructions.md) for detailed guidelines.
+See [Docker Instructions](instructions/docker.instructions.md) for detailed guidelines.
 
 ## Documentation Guidelines
 
@@ -122,7 +122,7 @@ When working with documentation files (`Architecture/*.md`, `Guides/*.md`, `Desi
 - Use markdown formatting consistently
 - Include visual examples or screenshots for UI elements
 
-See [Documentation Guidelines](.github/instructions/documentation-guidelines.instructions.md) for comprehensive writing standards.
+See [Documentation Guidelines](instructions/documentation-guidelines.instructions.md) for comprehensive writing standards.
 
 ## Design System Guidelines
 
@@ -132,7 +132,7 @@ When documenting UI components or design elements:
 - Provide code examples using Shoelace components and design tokens
 - Include visual examples or screenshots when documenting UI elements
 
-See [Design System Instructions](.github/instructions/design-system.instructions.md) for details.
+See [Design System Instructions](instructions/design-system.instructions.md) for details.
 
 ## Requirements and Testing
 
@@ -189,12 +189,12 @@ Feature: US0001 - User Authentication
 ## Additional Instructions
 
 For more detailed, context-specific instructions, refer to:
-- [Project Workflow](.github/instructions/project-workflow.instructions.md)
-- [Development Standards](.github/instructions/development-standards.instructions.md)
-- [C# Instructions](.github/instructions/csharp.instructions.md)
-- [Docker Instructions](.github/instructions/docker.instructions.md)
-- [Documentation Guidelines](.github/instructions/documentation-guidelines.instructions.md)
-- [Design System Instructions](.github/instructions/design-system.instructions.md)
+- [Project Workflow](instructions/project-workflow.instructions.md)
+- [Development Standards](instructions/development-standards.instructions.md)
+- [C# Instructions](instructions/csharp.instructions.md)
+- [Docker Instructions](instructions/docker.instructions.md)
+- [Documentation Guidelines](instructions/documentation-guidelines.instructions.md)
+- [Design System Instructions](instructions/design-system.instructions.md)
 
 ## Key Documentation
 
