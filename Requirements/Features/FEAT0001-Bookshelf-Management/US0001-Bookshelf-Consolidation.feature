@@ -1,9 +1,11 @@
 Feature: US0001 - Bookshelf Consolidation
   # User Story: US0001 - Bookshelf Consolidation
+  # GitHub Issue: #13
   # As a book collector with scattered PDF files across multiple folders
   # I want to consolidate all my books into a single organized bookshelf
   # So that I can easily find and access my entire collection from one location
 
+  @Issue14
   Scenario: Consolidate scattered individual PDF files into bookshelf
     Given I have multiple PDF files scattered across different folders
     And I have specified a source directory containing these files
@@ -13,6 +15,7 @@ Feature: US0001 - Bookshelf Consolidation
     And the bookshelf should contain a flat structure of PDF files
     And the original files should remain unchanged in their source locations
 
+  @Issue15
   Scenario: Merge PDF collections into single books
     Given I have folders containing multiple PDF files representing book chapters
     And each folder represents a single book collection
@@ -24,6 +27,7 @@ Feature: US0001 - Bookshelf Consolidation
     And the merged PDF should contain all pages in the correct order
     And the single PDF should be placed in the bookshelf directory
 
+  @Issue16
   Scenario: Handle mixed content with both individual PDFs and collections
     Given I have a source directory with both individual PDF files and collection folders
     And some folders contain single PDFs while others contain multiple PDFs
@@ -33,6 +37,7 @@ Feature: US0001 - Bookshelf Consolidation
     And the bookshelf should contain only individual PDF files with no subfolders
     And all books should be accessible from a single location
 
+  @Issue17
   Scenario: Preserve book metadata during consolidation
     Given I have PDF files with existing metadata (title, author, creation date)
     And some files are in collections that need merging
@@ -41,6 +46,7 @@ Feature: US0001 - Bookshelf Consolidation
     And merged PDFs should preserve metadata from the first file in the collection
     And file creation timestamps should be maintained where possible
 
+  @Issue18
   Scenario: Handle naming conflicts during consolidation
     Given I have multiple PDF files or collections with identical names
     And these files exist in different source folders
@@ -50,6 +56,7 @@ Feature: US0001 - Bookshelf Consolidation
     And no files should be overwritten without user awareness
     And all original content should be preserved in the consolidated bookshelf
 
+  @Issue19
   Scenario: Provide progress feedback during consolidation
     Given I have a large collection of PDFs to consolidate
     When I run the consolidation command

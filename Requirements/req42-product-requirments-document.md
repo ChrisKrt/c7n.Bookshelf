@@ -98,7 +98,7 @@ Feature: US#### - Story Title
 Core functionality for managing personal book collections via CLI.
 
 **User Stories:**
-- [#TBD](https://github.com/ChrisKrt/c7n.Bookshelf/issues) [US0001 - Bookshelf Consolidation](Features/FEAT0001-Bookshelf-Management/US0001-Bookshelf-Consolidation.feature) - Consolidate scattered PDFs into organized bookshelf
+- [#13](https://github.com/ChrisKrt/c7n.Bookshelf/issues/13) [US0001 - Bookshelf Consolidation](Features/FEAT0001-Bookshelf-Management/US0001-Bookshelf-Consolidation.feature) - Consolidate scattered PDFs into organized bookshelf
 - [#TBD](https://github.com/ChrisKrt/c7n.Bookshelf/issues) [US0002 - Bookshelf List](Features/FEAT0001-Bookshelf-Management/US0002-Bookshelf-List.feature) - View and filter book lists
 - [#TBD](https://github.com/ChrisKrt/c7n.Bookshelf/issues) [US0003 - Bookshelf Reordering](Features/FEAT0001-Bookshelf-Management/US0003-Bookshelf-Reordering.feature) - Organize and categorize books
 
