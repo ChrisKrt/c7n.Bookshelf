@@ -1,3 +1,5 @@
+using Bookshelf.Application.Spi.Dtos;
+
 namespace Bookshelf.Application.Spi;
 
 /// <summary>
@@ -8,51 +10,48 @@ public interface IFileSystemAdapter
     /// <summary>
     /// Gets all PDF files in a directory (non-recursive for root level, recursive for subdirectories)
     /// </summary>
-    /// <param name="directoryPath">The directory path</param>
+    /// <param name="request">The request containing the directory path</param>
     /// <returns>List of PDF file paths</returns>
-    Task<IReadOnlyList<string>> GetPdfFilesAsync(string directoryPath);
+    Task<IReadOnlyList<string>> GetPdfFilesAsync(GetPdfFilesRequest request);
 
     /// <summary>
     /// Gets all subdirectories in a directory
     /// </summary>
-    /// <param name="directoryPath">The directory path</param>
+    /// <param name="request">The request containing the directory path</param>
     /// <returns>List of subdirectory paths</returns>
-    Task<IReadOnlyList<string>> GetSubdirectoriesAsync(string directoryPath);
+    Task<IReadOnlyList<string>> GetSubdirectoriesAsync(GetSubdirectoriesRequest request);
 
     /// <summary>
     /// Copies a file from source to destination
     /// </summary>
-    /// <param name="sourcePath">The source file path</param>
-    /// <param name="destinationPath">The destination file path</param>
-    /// <param name="overwrite">Whether to overwrite if the file exists</param>
+    /// <param name="request">The request containing source path, destination path, and overwrite flag</param>
     /// <returns>True if the copy was successful</returns>
-    Task<bool> CopyFileAsync(string sourcePath, string destinationPath, bool overwrite = false);
+    Task<bool> CopyFileAsync(CopyFileRequest request);
 
     /// <summary>
     /// Checks if a directory exists
     /// </summary>
-    /// <param name="directoryPath">The directory path</param>
+    /// <param name="request">The request containing the directory path</param>
     /// <returns>True if the directory exists</returns>
-    bool DirectoryExists(string directoryPath);
+    bool DirectoryExists(DirectoryExistsRequest request);
 
     /// <summary>
     /// Creates a directory if it doesn't exist
     /// </summary>
-    /// <param name="directoryPath">The directory path</param>
-    void EnsureDirectoryExists(string directoryPath);
+    /// <param name="request">The request containing the directory path</param>
+    void EnsureDirectoryExists(EnsureDirectoryExistsRequest request);
 
     /// <summary>
     /// Checks if a file exists
     /// </summary>
-    /// <param name="filePath">The file path</param>
+    /// <param name="request">The request containing the file path</param>
     /// <returns>True if the file exists</returns>
-    bool FileExists(string filePath);
+    bool FileExists(FileExistsRequest request);
 
     /// <summary>
     /// Generates a unique file name if the file already exists
     /// </summary>
-    /// <param name="directoryPath">The directory path</param>
-    /// <param name="fileName">The desired file name</param>
+    /// <param name="request">The request containing directory path and desired file name</param>
     /// <returns>A unique file name</returns>
-    string GenerateUniqueFileName(string directoryPath, string fileName);
+    string GenerateUniqueFileName(GenerateUniqueFileNameRequest request);
 }

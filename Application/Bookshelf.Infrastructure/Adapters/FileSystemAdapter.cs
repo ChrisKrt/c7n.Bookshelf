@@ -1,4 +1,5 @@
 using Bookshelf.Application.Spi;
+using Bookshelf.Application.Spi.Dtos;
 
 namespace Bookshelf.Infrastructure.Adapters;
 
@@ -8,18 +9,19 @@ namespace Bookshelf.Infrastructure.Adapters;
 public class FileSystemAdapter : IFileSystemAdapter
 {
     /// <inheritdoc />
-    public Task<IReadOnlyList<string>> GetPdfFilesAsync(string directoryPath)
+    public Task<IReadOnlyList<string>> GetPdfFilesAsync(GetPdfFilesRequest request)
     {
         return Task.Run<IReadOnlyList<string>>(() =>
         {
             try
             {
-                if (!Directory.Exists(directoryPath))
+                var directoryDoesNotExist = !Directory.Exists(request.DirectoryPath);
+                if (directoryDoesNotExist)
                 {
                     return Array.Empty<string>();
                 }
 
-                return Directory.GetFiles(directoryPath, "*.pdf", SearchOption.TopDirectoryOnly)
+                return Directory.GetFiles(request.DirectoryPath, "*.pdf", SearchOption.TopDirectoryOnly)
                     .OrderBy(f => f, StringComparer.OrdinalIgnoreCase)
                     .ToList();
             }
@@ -32,18 +34,19 @@ public class FileSystemAdapter : IFileSystemAdapter
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyList<string>> GetSubdirectoriesAsync(string directoryPath)
+    public Task<IReadOnlyList<string>> GetSubdirectoriesAsync(GetSubdirectoriesRequest request)
     {
         return Task.Run<IReadOnlyList<string>>(() =>
         {
             try
             {
-                if (!Directory.Exists(directoryPath))
+                var directoryDoesNotExist = !Directory.Exists(request.DirectoryPath);
+                if (directoryDoesNotExist)
                 {
                     return Array.Empty<string>();
                 }
 
-                return Directory.GetDirectories(directoryPath)
+                return Directory.GetDirectories(request.DirectoryPath)
                     .OrderBy(d => d, StringComparer.OrdinalIgnoreCase)
                     .ToList();
             }
@@ -55,13 +58,13 @@ public class FileSystemAdapter : IFileSystemAdapter
     }
 
     /// <inheritdoc />
-    public async Task<bool> CopyFileAsync(string sourcePath, string destinationPath, bool overwrite = false)
+    public async Task<bool> CopyFileAsync(CopyFileRequest request)
     {
         try
         {
             await Task.Run(() =>
             {
-                File.Copy(sourcePath, destinationPath, overwrite);
+                File.Copy(request.SourcePath, request.DestinationPath, request.Overwrite);
             });
             return true;
         }
@@ -72,31 +75,32 @@ public class FileSystemAdapter : IFileSystemAdapter
     }
 
     /// <inheritdoc />
-    public bool DirectoryExists(string directoryPath)
+    public bool DirectoryExists(DirectoryExistsRequest request)
     {
-        return Directory.Exists(directoryPath);
+        return Directory.Exists(request.DirectoryPath);
     }
 
     /// <inheritdoc />
-    public void EnsureDirectoryExists(string directoryPath)
+    public void EnsureDirectoryExists(EnsureDirectoryExistsRequest request)
     {
-        if (!Directory.Exists(directoryPath))
+        var directoryDoesNotExist = !Directory.Exists(request.DirectoryPath);
+        if (directoryDoesNotExist)
         {
-            Directory.CreateDirectory(directoryPath);
+            Directory.CreateDirectory(request.DirectoryPath);
         }
     }
 
     /// <inheritdoc />
-    public bool FileExists(string filePath)
+    public bool FileExists(FileExistsRequest request)
     {
-        return File.Exists(filePath);
+        return File.Exists(request.FilePath);
     }
 
     /// <inheritdoc />
-    public string GenerateUniqueFileName(string directoryPath, string fileName)
+    public string GenerateUniqueFileName(GenerateUniqueFileNameRequest request)
     {
-        var nameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
-        var extension = Path.GetExtension(fileName);
+        var nameWithoutExtension = Path.GetFileNameWithoutExtension(request.FileName);
+        var extension = Path.GetExtension(request.FileName);
         var counter = 1;
 
         string candidateFileName;
@@ -105,7 +109,7 @@ public class FileSystemAdapter : IFileSystemAdapter
         do
         {
             candidateFileName = $"{nameWithoutExtension}_{counter}{extension}";
-            candidatePath = Path.Combine(directoryPath, candidateFileName);
+            candidatePath = Path.Combine(request.DirectoryPath, candidateFileName);
             counter++;
         }
         while (File.Exists(candidatePath));

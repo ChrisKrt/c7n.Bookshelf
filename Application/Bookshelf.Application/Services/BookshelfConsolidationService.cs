@@ -3,6 +3,7 @@ using Bookshelf.Application.Api.Dtos;
 using Bookshelf.Application.Core.Entities;
 using Bookshelf.Application.Core.ValueObjects;
 using Bookshelf.Application.Spi;
+using Bookshelf.Application.Spi.Dtos;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
@@ -55,7 +56,8 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
             throw new ArgumentException("Target directory cannot be null or whitespace", nameof(request));
         }
 
-        var sourceDirectoryDoesNotExist = !_fileSystemAdapter.DirectoryExists(request.SourceDirectory);
+        var sourceDirectoryDoesNotExist = !_fileSystemAdapter.DirectoryExists(
+            new DirectoryExistsRequest(request.SourceDirectory));
         if (sourceDirectoryDoesNotExist)
         {
             return ConsolidationResult.CreateFailure($"Source directory does not exist: {request.SourceDirectory}");
@@ -69,7 +71,7 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
             progressCallback?.Report("Starting consolidation...");
 
             // Ensure target directory exists
-            _fileSystemAdapter.EnsureDirectoryExists(request.TargetDirectory);
+            _fileSystemAdapter.EnsureDirectoryExists(new EnsureDirectoryExistsRequest(request.TargetDirectory));
 
             var consolidatedBooks = new List<string>();
             var namingConflicts = new List<string>();
@@ -77,7 +79,8 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
             var collectionsMerged = 0;
 
             // Process root PDFs
-            var rootPdfFiles = await _fileSystemAdapter.GetPdfFilesAsync(request.SourceDirectory);
+            var rootPdfFiles = await _fileSystemAdapter.GetPdfFilesAsync(
+                new GetPdfFilesRequest(request.SourceDirectory));
             foreach (var pdfFile in rootPdfFiles)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -93,7 +96,8 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
             }
 
             // Process subdirectories (collections)
-            var subdirectories = await _fileSystemAdapter.GetSubdirectoriesAsync(request.SourceDirectory);
+            var subdirectories = await _fileSystemAdapter.GetSubdirectoriesAsync(
+                new GetSubdirectoriesRequest(request.SourceDirectory));
             foreach (var subdirectory in subdirectories)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -150,16 +154,17 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
     {
         // Precondition: directory path must be valid
         Debug.Assert(!string.IsNullOrWhiteSpace(directoryPath), "Directory path must not be null or whitespace");
-        Debug.Assert(_fileSystemAdapter.DirectoryExists(directoryPath), "Directory must exist");
+        Debug.Assert(_fileSystemAdapter.DirectoryExists(new DirectoryExistsRequest(directoryPath)), "Directory must exist");
         
         var allPdfs = new List<string>();
         
         // Get PDFs in current directory
-        var pdfs = await _fileSystemAdapter.GetPdfFilesAsync(directoryPath);
+        var pdfs = await _fileSystemAdapter.GetPdfFilesAsync(new GetPdfFilesRequest(directoryPath));
         allPdfs.AddRange(pdfs);
 
         // Get PDFs from subdirectories
-        var subdirectories = await _fileSystemAdapter.GetSubdirectoriesAsync(directoryPath);
+        var subdirectories = await _fileSystemAdapter.GetSubdirectoriesAsync(
+            new GetSubdirectoriesRequest(directoryPath));
         foreach (var subdirectory in subdirectories)
         {
             var subPdfs = await GetAllPdfsRecursivelyAsync(subdirectory);
@@ -194,11 +199,13 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
         
         var destinationPath = ResolveDestinationPath(targetDirectory, fileName, namingConflicts);
 
-        await _fileSystemAdapter.CopyFileAsync(pdfFile, destinationPath, false);
+        await _fileSystemAdapter.CopyFileAsync(
+            new CopyFileRequest(pdfFile, destinationPath, false));
         _logger.LogDebug("Copied individual PDF: {FileName}", fileName);
         
         // Postcondition: destination file should exist
-        Debug.Assert(_fileSystemAdapter.FileExists(destinationPath), "Destination file should exist after copy");
+        Debug.Assert(_fileSystemAdapter.FileExists(new FileExistsRequest(destinationPath)), 
+            "Destination file should exist after copy");
         
         var hadConflict = namingConflicts.Contains(fileName);
         return new FileDestination(destinationPath, hadConflict);
@@ -216,7 +223,8 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
     {
         // Precondition: parameters must be valid
         Debug.Assert(!string.IsNullOrWhiteSpace(subdirectory), "Subdirectory must not be null");
-        Debug.Assert(_fileSystemAdapter.DirectoryExists(subdirectory), "Subdirectory must exist");
+        Debug.Assert(_fileSystemAdapter.DirectoryExists(new DirectoryExistsRequest(subdirectory)), 
+            "Subdirectory must exist");
 
         var collectionName = Path.GetFileName(subdirectory);
         progressCallback?.Report($"Processing collection: {collectionName}");
@@ -262,10 +270,12 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
         var fileName = Path.GetFileName(singlePdf);
         var destinationPath = ResolveDestinationPath(targetDirectory, fileName, namingConflicts);
 
-        await _fileSystemAdapter.CopyFileAsync(singlePdf, destinationPath, false);
+        await _fileSystemAdapter.CopyFileAsync(
+            new CopyFileRequest(singlePdf, destinationPath, false));
         
         // Postcondition
-        Debug.Assert(_fileSystemAdapter.FileExists(destinationPath), "Destination file should exist after copy");
+        Debug.Assert(_fileSystemAdapter.FileExists(new FileExistsRequest(destinationPath)), 
+            "Destination file should exist after copy");
         
         return new CollectionProcessingResult(destinationPath, false, true);
     }
@@ -289,13 +299,15 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
         var outputFileName = $"{collectionName}.pdf";
         var outputPath = ResolveDestinationPath(targetDirectory, outputFileName, namingConflicts);
 
-        var firstPdfMetadata = await _pdfMerger.ExtractMetadataAsync(collectionPdfs[0]);
+        var firstPdfMetadata = await _pdfMerger.ExtractMetadataAsync(
+            new ExtractMetadataRequest(collectionPdfs[0]));
 
-        var mergeSuccess = await _pdfMerger.MergePdfsAsync(
-            collectionPdfs, 
-            outputPath, 
-            firstPdfMetadata,
-            cancellationToken);
+        var mergeRequest = new MergePdfsRequest(
+            collectionPdfs,
+            outputPath,
+            firstPdfMetadata);
+
+        var mergeSuccess = await _pdfMerger.MergePdfsAsync(mergeRequest, cancellationToken);
 
         if (mergeSuccess)
         {
@@ -303,7 +315,8 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
                 collectionName, collectionPdfs.Count);
             
             // Postcondition
-            Debug.Assert(_fileSystemAdapter.FileExists(outputPath), "Output file should exist after merge");
+            Debug.Assert(_fileSystemAdapter.FileExists(new FileExistsRequest(outputPath)), 
+                "Output file should exist after merge");
             
             return new CollectionProcessingResult(outputPath, true, false);
         }
@@ -326,10 +339,11 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
 
         var destinationPath = Path.Combine(targetDirectory, fileName);
         
-        var fileExists = _fileSystemAdapter.FileExists(destinationPath);
+        var fileExists = _fileSystemAdapter.FileExists(new FileExistsRequest(destinationPath));
         if (fileExists)
         {
-            var uniqueFileName = _fileSystemAdapter.GenerateUniqueFileName(targetDirectory, fileName);
+            var uniqueFileName = _fileSystemAdapter.GenerateUniqueFileName(
+                new GenerateUniqueFileNameRequest(targetDirectory, fileName));
             destinationPath = Path.Combine(targetDirectory, uniqueFileName);
             namingConflicts.Add(fileName);
             _logger.LogWarning("Naming conflict detected for {FileName}, using {UniqueFileName}", 

@@ -1,5 +1,6 @@
 using Bookshelf.Application.Core.ValueObjects;
 using Bookshelf.Application.Spi;
+using Bookshelf.Application.Spi.Dtos;
 using Microsoft.Extensions.Logging;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
@@ -24,16 +25,14 @@ public class PdfMerger : IPdfMerger
 
     /// <inheritdoc />
     public async Task<bool> MergePdfsAsync(
-        IEnumerable<string> sourcePdfPaths,
-        string outputPdfPath,
-        BookMetadata? metadata = null,
+        MergePdfsRequest request,
         CancellationToken cancellationToken = default)
     {
         try
         {
             return await Task.Run(() =>
             {
-                var sourcePathsList = sourcePdfPaths.ToList();
+                var sourcePathsList = request.SourcePdfPaths.ToList();
                 
                 var hasNoSourcePdfs = !sourcePathsList.Any();
                 if (hasNoSourcePdfs)
@@ -45,10 +44,10 @@ public class PdfMerger : IPdfMerger
                 // Create output PDF document
                 using var outputDocument = new PdfDocument();
                 
-                SetMetadataIfProvided(outputDocument, metadata);
+                SetMetadataIfProvided(outputDocument, request.Metadata);
                 MergeAllSourcePdfs(sourcePathsList, outputDocument, cancellationToken);
 
-                return SaveMergedDocument(outputDocument, outputPdfPath);
+                return SaveMergedDocument(outputDocument, request.OutputPdfPath);
             }, cancellationToken);
         }
         catch (OperationCanceledException)
@@ -58,45 +57,45 @@ public class PdfMerger : IPdfMerger
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error during PDF merge to {OutputPath}", outputPdfPath);
+            _logger.LogError(ex, "Error during PDF merge to {OutputPath}", request.OutputPdfPath);
             return false;
         }
     }
 
     /// <inheritdoc />
-    public async Task<BookMetadata> ExtractMetadataAsync(string pdfPath)
+    public async Task<BookMetadata> ExtractMetadataAsync(ExtractMetadataRequest request)
     {
         try
         {
             return await Task.Run(() =>
             {
-                var fileDoesNotExist = !File.Exists(pdfPath);
+                var fileDoesNotExist = !File.Exists(request.PdfPath);
                 if (fileDoesNotExist)
                 {
-                    _logger.LogWarning("PDF file not found: {PdfPath}", pdfPath);
+                    _logger.LogWarning("PDF file not found: {PdfPath}", request.PdfPath);
                     return BookMetadata.Empty;
                 }
 
                 try
                 {
-                    using var document = PdfReader.Open(pdfPath, PdfDocumentOpenMode.Import);
+                    using var document = PdfReader.Open(request.PdfPath, PdfDocumentOpenMode.Import);
                     
                     var title = document.Info.Title;
                     var author = document.Info.Author;
-                    var creationDate = TryGetFileCreationDate(pdfPath);
+                    var creationDate = TryGetFileCreationDate(request.PdfPath);
 
                     return new BookMetadata(title, author, creationDate);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error reading PDF metadata from {PdfPath}", pdfPath);
+                    _logger.LogError(ex, "Error reading PDF metadata from {PdfPath}", request.PdfPath);
                     return BookMetadata.Empty;
                 }
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error extracting metadata from {PdfPath}", pdfPath);
+            _logger.LogError(ex, "Error extracting metadata from {PdfPath}", request.PdfPath);
             return BookMetadata.Empty;
         }
     }

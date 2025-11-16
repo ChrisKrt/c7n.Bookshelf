@@ -409,3 +409,62 @@ iText.Kernel.Exceptions.PdfException: Unknown PdfException.
 2025-11-16 18:02:58.577 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_hkxud_1f/source/Collection2/part2.pdf (1 pages)
 2025-11-16 18:02:58.578 +00:00 [INF] Merged collection Collection2 with 3 PDFs
 2025-11-16 18:02:58.578 +00:00 [INF] Consolidation completed. Total: 13, Individual: 10, Merged: 3, Conflicts: 0
+2025-11-16 18:13:49.093 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:13:49.440 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_rhg19p96/source to /tmp/bookshelf_test_rhg19p96/target
+2025-11-16 18:13:49.452 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 18:13:49.456 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 0
+2025-11-16 18:13:49.586 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:13:49.760 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_arv8lu_8/source to /tmp/bookshelf_test_arv8lu_8/target
+2025-11-16 18:13:49.831 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_arv8lu_8/source/Collection1/chapter1.pdf (1 pages)
+2025-11-16 18:13:49.833 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_arv8lu_8/source/Collection1/chapter2.pdf (1 pages)
+2025-11-16 18:13:49.852 +00:00 [INF] Merged collection Collection1 with 2 PDFs
+2025-11-16 18:13:49.883 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_arv8lu_8/source/Collection2/part1.pdf (1 pages)
+2025-11-16 18:13:49.884 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_arv8lu_8/source/Collection2/part2.pdf (1 pages)
+2025-11-16 18:13:49.884 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_arv8lu_8/source/Collection2/part3.pdf (1 pages)
+2025-11-16 18:13:49.884 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 18:13:49.884 +00:00 [INF] Consolidation completed. Total: 2, Individual: 0, Merged: 2, Conflicts: 0
+2025-11-16 18:13:50.002 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:13:50.175 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_pu1a15y9/source to /tmp/bookshelf_test_pu1a15y9/target
+2025-11-16 18:13:50.184 +00:00 [DBG] Copied individual PDF: standalone.pdf
+2025-11-16 18:13:50.236 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_pu1a15y9/source/MultiPartBook/part1.pdf (1 pages)
+2025-11-16 18:13:50.238 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_pu1a15y9/source/MultiPartBook/part2.pdf (1 pages)
+2025-11-16 18:13:50.257 +00:00 [INF] Merged collection MultiPartBook with 2 PDFs
+2025-11-16 18:13:50.258 +00:00 [INF] Consolidation completed. Total: 3, Individual: 2, Merged: 1, Conflicts: 0
+2025-11-16 18:13:50.375 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:13:50.549 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_e220rxco/source to /tmp/bookshelf_test_e220rxco/target
+2025-11-16 18:13:50.557 +00:00 [DBG] Copied individual PDF: metadata_book.pdf
+2025-11-16 18:13:50.611 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_e220rxco/source/MetadataCollection/chapter1.pdf (2 pages)
+2025-11-16 18:13:50.613 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_e220rxco/source/MetadataCollection/chapter2.pdf (2 pages)
+2025-11-16 18:13:50.632 +00:00 [INF] Merged collection MetadataCollection with 2 PDFs
+2025-11-16 18:13:50.632 +00:00 [INF] Consolidation completed. Total: 2, Individual: 1, Merged: 1, Conflicts: 0
+2025-11-16 18:13:50.746 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:13:50.919 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_nc569l9_/source to /tmp/bookshelf_test_nc569l9_/target
+2025-11-16 18:13:50.927 +00:00 [DBG] Copied individual PDF: duplicate.pdf
+2025-11-16 18:13:50.931 +00:00 [WRN] Naming conflict detected for duplicate.pdf, using duplicate_1.pdf
+2025-11-16 18:13:50.931 +00:00 [WRN] Naming conflict detected for duplicate.pdf, using duplicate_2.pdf
+2025-11-16 18:13:50.931 +00:00 [INF] Consolidation completed. Total: 3, Individual: 3, Merged: 0, Conflicts: 2
+2025-11-16 18:13:51.060 +00:00 [INF] Starting Bookshelf CLI application
+2025-11-16 18:13:51.232 +00:00 [INF] Starting consolidation from /tmp/bookshelf_test_dgh5mljm/source to /tmp/bookshelf_test_dgh5mljm/target
+2025-11-16 18:13:51.242 +00:00 [DBG] Copied individual PDF: book0.pdf
+2025-11-16 18:13:51.242 +00:00 [DBG] Copied individual PDF: book1.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book2.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book3.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book4.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book5.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book6.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book7.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book8.pdf
+2025-11-16 18:13:51.243 +00:00 [DBG] Copied individual PDF: book9.pdf
+2025-11-16 18:13:51.295 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection0/part0.pdf (1 pages)
+2025-11-16 18:13:51.297 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection0/part1.pdf (1 pages)
+2025-11-16 18:13:51.297 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection0/part2.pdf (1 pages)
+2025-11-16 18:13:51.316 +00:00 [INF] Merged collection Collection0 with 3 PDFs
+2025-11-16 18:13:51.318 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection1/part0.pdf (1 pages)
+2025-11-16 18:13:51.318 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection1/part1.pdf (1 pages)
+2025-11-16 18:13:51.318 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection1/part2.pdf (1 pages)
+2025-11-16 18:13:51.319 +00:00 [INF] Merged collection Collection1 with 3 PDFs
+2025-11-16 18:13:51.319 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection2/part0.pdf (1 pages)
+2025-11-16 18:13:51.320 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection2/part1.pdf (1 pages)
+2025-11-16 18:13:51.320 +00:00 [DBG] Merged PDF: /tmp/bookshelf_test_dgh5mljm/source/Collection2/part2.pdf (1 pages)
+2025-11-16 18:13:51.320 +00:00 [INF] Merged collection Collection2 with 3 PDFs
+2025-11-16 18:13:51.320 +00:00 [INF] Consolidation completed. Total: 13, Individual: 10, Merged: 3, Conflicts: 0

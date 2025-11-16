@@ -1,4 +1,5 @@
 using Bookshelf.Application.Core.ValueObjects;
+using Bookshelf.Application.Spi.Dtos;
 
 namespace Bookshelf.Application.Spi;
 
@@ -10,21 +11,17 @@ public interface IPdfMerger
     /// <summary>
     /// Merges multiple PDF files into a single PDF file
     /// </summary>
-    /// <param name="sourcePdfPaths">The paths of the PDF files to merge</param>
-    /// <param name="outputPdfPath">The output path for the merged PDF</param>
-    /// <param name="metadata">Metadata to apply to the merged PDF</param>
+    /// <param name="request">The request containing source PDF paths, output path, and metadata</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>True if the merge was successful, false otherwise</returns>
     Task<bool> MergePdfsAsync(
-        IEnumerable<string> sourcePdfPaths,
-        string outputPdfPath,
-        BookMetadata? metadata = null,
+        MergePdfsRequest request,
         CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Extracts metadata from a PDF file
     /// </summary>
-    /// <param name="pdfPath">The path to the PDF file</param>
+    /// <param name="request">The request containing the PDF path</param>
     /// <returns>The extracted metadata</returns>
-    Task<BookMetadata> ExtractMetadataAsync(string pdfPath);
+    Task<BookMetadata> ExtractMetadataAsync(ExtractMetadataRequest request);
 }
