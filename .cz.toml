@@ -17,38 +17,37 @@ version_files = [
 
 
 [tool.commitizen.customize]
-message_template = "{{change_type}}(#{{feature_ticket_number}}):{% if show_message %} {{message}}{% endif %} (US-{{user_story_number}})"
-example = "Feature(#89): this feature enables customization through config file (US-123)"
-schema = "<type> #<feature_ticket_number>: <body> (US-<user_story>)"
-schema_pattern = "^(Feature|BugFix|Task) #(\\d+):(\\s(.*))? \\(US-(\\d+)\\)$"
-bump_pattern = "^(Feature|BugFix|Task) #(\\d+):(\\s(.*))? \\(US-(\\d+)\\)$"
+message_template = "{{change_type}}(#{{ticket_number}}): {{message}}{% if change_type == 'Feature' %} (US-{{user_story_number}}){% endif %}"
+example = "Feature(#89): this feature enables customization through config file (US-123)\nBugFix(#45): fixed null reference error\nTask(#12): updated documentation"
+schema = "<type> #<ticket_number>: <body> [(US-<user_story>)]"
+schema_pattern = "^(Feature|BugFix|Task) #(\\d+):(\\s(.*))?(\\s\\(US-(\\d+)\\))?$"
+bump_pattern = "^(Feature|BugFix|Task) #(\\d+):(\\s(.*))?(\\s\\(US-(\\d+)\\))?$"
 bump_map = { "Feature" = "MINOR", "BugFix" = "PATCH", "Task" = "PATCH", "!" = "MAJOR" }
 change_type_order = ["Feature", "BugFix", "Task"]
 info = "Commit types: Feature (MINOR bump), BugFix (PATCH bump), Task (PATCH bump). Use ! for breaking changes (MAJOR bump)."
-commit_parser = "^(?P<change_type>Feature|BugFix|Task) #(?P<feature_ticket_number>\\d+):(?P<message>.*) \\(US-(?P<user_story_number>\\d+)\\)$"
-changelog_pattern = "^(?P<change_type>Feature|BugFix|Task) #(?P<feature_ticket_number>\\d+)(?P<breaking>!?):(?P<message>.*) \\(US-(?P<user_story_number>\\d+)\\)$"
+commit_parser = "^(?P<change_type>Feature|BugFix|Task) #(?P<ticket_number>\\d+):(?P<message>.*?)(?:\\s\\(US-(?P<user_story_number>\\d+)\\))?$"
+changelog_pattern = "^(?P<change_type>Feature|BugFix|Task) #(?P<ticket_number>\\d+)(?P<breaking>!?):(?P<message>.*?)(?:\\s\\(US-(?P<user_story_number>\\d+)\\))?$"
 change_type_map = { "Feature" = "Feature", "BugFix" = "Bug Fix", "Task" = "Miscellaneous" }
 
 [[tool.commitizen.customize.questions]]
 type = "list"
 name = "change_type"
 choices = [
-    { value = "Feature", name = "Feature: A new feature." },
-    { value = "BugFix", name = "BugFix: A bug fix." },
-    { value = "Task", name = "Task: A task." },
+    { value = "Feature", name = "Feature: A new feature (use Feature # for user stories)." },
+    { value = "BugFix", name = "BugFix: A bug fix (use Bug/Defect #)." },
+    { value = "Task", name = "Task: A task (use Task #)." },
 ]
-# choices = ["Feature", "Fix"]  # short version
 message = "Select the type of change you are committing"
 
 [[tool.commitizen.customize.questions]]
 type = "input"
-name = "feature_ticket_number"
-message = "Feature Ticket Number:"
+name = "ticket_number"
+message = "Ticket Number (Feature/Bug/Task #):"
 
 [[tool.commitizen.customize.questions]]
 type = "input"
 name = "user_story_number"
-message = "User Story Number:"
+message = "User Story Number (for Features only, press Enter to skip for Bug/Task):"
 
 [[tool.commitizen.customize.questions]]
 type = "input"
