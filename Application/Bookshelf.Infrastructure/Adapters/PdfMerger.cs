@@ -35,7 +35,8 @@ public class PdfMerger : IPdfMerger
             {
                 var sourcePathsList = sourcePdfPaths.ToList();
                 
-                if (!sourcePathsList.Any())
+                var hasNoSourcePdfs = !sourcePathsList.Any();
+                if (hasNoSourcePdfs)
                 {
                     _logger.LogWarning("No source PDFs provided for merging");
                     return false;
@@ -44,62 +45,10 @@ public class PdfMerger : IPdfMerger
                 // Create output PDF document
                 using var outputDocument = new PdfDocument();
                 
-                // Set metadata if provided
-                if (metadata != null)
-                {
-                    if (!string.IsNullOrWhiteSpace(metadata.Title))
-                    {
-                        outputDocument.Info.Title = metadata.Title;
-                    }
-                    
-                    if (!string.IsNullOrWhiteSpace(metadata.Author))
-                    {
-                        outputDocument.Info.Author = metadata.Author;
-                    }
-                }
+                SetMetadataIfProvided(outputDocument, metadata);
+                MergeAllSourcePdfs(sourcePathsList, outputDocument, cancellationToken);
 
-                // Merge all source PDFs
-                foreach (var sourcePath in sourcePathsList)
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    if (!File.Exists(sourcePath))
-                    {
-                        _logger.LogWarning("Source PDF not found: {SourcePath}", sourcePath);
-                        continue;
-                    }
-
-                    try
-                    {
-                        using var sourceDocument = PdfReader.Open(sourcePath, PdfDocumentOpenMode.Import);
-                        
-                        // Copy all pages from source to output
-                        for (int i = 0; i < sourceDocument.PageCount; i++)
-                        {
-                            outputDocument.AddPage(sourceDocument.Pages[i]);
-                        }
-                        
-                        _logger.LogDebug("Merged PDF: {SourcePath} ({PageCount} pages)", 
-                            sourcePath, sourceDocument.PageCount);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Error merging PDF: {SourcePath}", sourcePath);
-                        // Continue with other PDFs
-                    }
-                }
-
-                // Save the merged document
-                if (outputDocument.PageCount > 0)
-                {
-                    outputDocument.Save(outputPdfPath);
-                    return true;
-                }
-                else
-                {
-                    _logger.LogWarning("No pages to save in merged PDF");
-                    return false;
-                }
+                return SaveMergedDocument(outputDocument, outputPdfPath);
             }, cancellationToken);
         }
         catch (OperationCanceledException)
@@ -121,7 +70,8 @@ public class PdfMerger : IPdfMerger
         {
             return await Task.Run(() =>
             {
-                if (!File.Exists(pdfPath))
+                var fileDoesNotExist = !File.Exists(pdfPath);
+                if (fileDoesNotExist)
                 {
                     _logger.LogWarning("PDF file not found: {PdfPath}", pdfPath);
                     return BookMetadata.Empty;
@@ -133,18 +83,7 @@ public class PdfMerger : IPdfMerger
                     
                     var title = document.Info.Title;
                     var author = document.Info.Author;
-                    
-                    // Try to get creation date from file info if not in PDF metadata
-                    DateTime? creationDate = null;
-                    try
-                    {
-                        var fileInfo = new FileInfo(pdfPath);
-                        creationDate = fileInfo.CreationTime;
-                    }
-                    catch
-                    {
-                        // Ignore errors getting file creation date
-                    }
+                    var creationDate = TryGetFileCreationDate(pdfPath);
 
                     return new BookMetadata(title, author, creationDate);
                 }
@@ -159,6 +98,112 @@ public class PdfMerger : IPdfMerger
         {
             _logger.LogError(ex, "Error extracting metadata from {PdfPath}", pdfPath);
             return BookMetadata.Empty;
+        }
+    }
+
+    /// <summary>
+    /// Sets metadata on the PDF document if provided
+    /// </summary>
+    private static void SetMetadataIfProvided(PdfDocument outputDocument, BookMetadata? metadata)
+    {
+        var hasMetadata = metadata != null;
+        if (!hasMetadata)
+        {
+            return;
+        }
+
+        var hasTitle = !string.IsNullOrWhiteSpace(metadata!.Title);
+        if (hasTitle)
+        {
+            outputDocument.Info.Title = metadata.Title!;
+        }
+        
+        var hasAuthor = !string.IsNullOrWhiteSpace(metadata.Author);
+        if (hasAuthor)
+        {
+            outputDocument.Info.Author = metadata.Author!;
+        }
+    }
+
+    /// <summary>
+    /// Merges all source PDFs into the output document
+    /// </summary>
+    private void MergeAllSourcePdfs(
+        List<string> sourcePathsList, 
+        PdfDocument outputDocument, 
+        CancellationToken cancellationToken)
+    {
+        foreach (var sourcePath in sourcePathsList)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var fileDoesNotExist = !File.Exists(sourcePath);
+            if (fileDoesNotExist)
+            {
+                _logger.LogWarning("Source PDF not found: {SourcePath}", sourcePath);
+                continue;
+            }
+
+            TryMergeSinglePdf(sourcePath, outputDocument);
+        }
+    }
+
+    /// <summary>
+    /// Attempts to merge a single PDF into the output document
+    /// </summary>
+    private void TryMergeSinglePdf(string sourcePath, PdfDocument outputDocument)
+    {
+        try
+        {
+            using var sourceDocument = PdfReader.Open(sourcePath, PdfDocumentOpenMode.Import);
+            
+            // Copy all pages from source to output using LINQ
+            var pageIndices = Enumerable.Range(0, sourceDocument.PageCount);
+            foreach (var pageIndex in pageIndices)
+            {
+                outputDocument.AddPage(sourceDocument.Pages[pageIndex]);
+            }
+            
+            _logger.LogDebug("Merged PDF: {SourcePath} ({PageCount} pages)", 
+                sourcePath, sourceDocument.PageCount);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error merging PDF: {SourcePath}", sourcePath);
+            // Continue with other PDFs
+        }
+    }
+
+    /// <summary>
+    /// Saves the merged document if it has pages
+    /// </summary>
+    private bool SaveMergedDocument(PdfDocument outputDocument, string outputPdfPath)
+    {
+        var hasPages = outputDocument.PageCount > 0;
+        if (hasPages)
+        {
+            outputDocument.Save(outputPdfPath);
+            return true;
+        }
+
+        _logger.LogWarning("No pages to save in merged PDF");
+        return false;
+    }
+
+    /// <summary>
+    /// Tries to get the file creation date, returns null on failure
+    /// </summary>
+    private static DateTime? TryGetFileCreationDate(string pdfPath)
+    {
+        try
+        {
+            var fileInfo = new FileInfo(pdfPath);
+            return fileInfo.CreationTime;
+        }
+        catch
+        {
+            // Ignore errors getting file creation date
+            return null;
         }
     }
 }

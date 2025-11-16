@@ -1,4 +1,5 @@
 using Bookshelf.Application.Api;
+using Bookshelf.Application.Api.Dtos;
 using Bookshelf.Application.Core.Entities;
 using Bookshelf.Application.Core.ValueObjects;
 using Bookshelf.Application.Spi;
@@ -70,110 +71,44 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
             var individualPdfsCopied = 0;
             var collectionsMerged = 0;
 
-            // Get all PDF files in the root of the source directory
+            // Process root PDFs
             var rootPdfFiles = await _fileSystemAdapter.GetPdfFilesAsync(sourceDirectory);
-            
-            // Process individual PDFs in root directory
             foreach (var pdfFile in rootPdfFiles)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 
-                var fileName = Path.GetFileName(pdfFile);
-                progressCallback?.Report($"Copying individual PDF: {fileName}");
+                var result = await ProcessIndividualPdfAsync(
+                    pdfFile, 
+                    targetDirectory, 
+                    progressCallback, 
+                    namingConflicts);
                 
-                var destinationPath = Path.Combine(targetDirectory, fileName);
-                
-                // Handle naming conflicts
-                if (_fileSystemAdapter.FileExists(destinationPath))
-                {
-                    var uniqueFileName = _fileSystemAdapter.GenerateUniqueFileName(targetDirectory, fileName);
-                    destinationPath = Path.Combine(targetDirectory, uniqueFileName);
-                    namingConflicts.Add(fileName);
-                    _logger.LogWarning("Naming conflict detected for {FileName}, using {UniqueFileName}", 
-                        fileName, uniqueFileName);
-                }
-
-                await _fileSystemAdapter.CopyFileAsync(pdfFile, destinationPath, false);
-                consolidatedBooks.Add(destinationPath);
+                consolidatedBooks.Add(result.Path);
                 individualPdfsCopied++;
-                
-                _logger.LogDebug("Copied individual PDF: {FileName}", fileName);
             }
 
-            // Get all subdirectories
+            // Process subdirectories (collections)
             var subdirectories = await _fileSystemAdapter.GetSubdirectoriesAsync(sourceDirectory);
-
-            // Process each subdirectory (collections)
             foreach (var subdirectory in subdirectories)
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var collectionName = Path.GetFileName(subdirectory);
-                progressCallback?.Report($"Processing collection: {collectionName}");
+                var result = await ProcessCollectionAsync(
+                    subdirectory, 
+                    targetDirectory, 
+                    progressCallback, 
+                    namingConflicts, 
+                    cancellationToken);
 
-                // Get all PDFs in this collection
-                var collectionPdfs = await GetAllPdfsRecursivelyAsync(subdirectory);
-
-                if (collectionPdfs.Count == 0)
+                if (result.WasMerged)
                 {
-                    _logger.LogWarning("No PDFs found in collection: {CollectionName}", collectionName);
-                    continue;
+                    consolidatedBooks.Add(result.OutputPath);
+                    collectionsMerged++;
                 }
-
-                if (collectionPdfs.Count == 1)
+                else if (result.WasCopied)
                 {
-                    // Single PDF in collection - just copy it
-                    var singlePdf = collectionPdfs[0];
-                    var fileName = Path.GetFileName(singlePdf);
-                    var destinationPath = Path.Combine(targetDirectory, fileName);
-
-                    if (_fileSystemAdapter.FileExists(destinationPath))
-                    {
-                        var uniqueFileName = _fileSystemAdapter.GenerateUniqueFileName(targetDirectory, fileName);
-                        destinationPath = Path.Combine(targetDirectory, uniqueFileName);
-                        namingConflicts.Add(fileName);
-                    }
-
-                    await _fileSystemAdapter.CopyFileAsync(singlePdf, destinationPath, false);
-                    consolidatedBooks.Add(destinationPath);
+                    consolidatedBooks.Add(result.OutputPath);
                     individualPdfsCopied++;
-                }
-                else
-                {
-                    // Multiple PDFs - merge them
-                    progressCallback?.Report($"Merging collection: {collectionName}");
-
-                    var outputFileName = $"{collectionName}.pdf";
-                    var outputPath = Path.Combine(targetDirectory, outputFileName);
-
-                    if (_fileSystemAdapter.FileExists(outputPath))
-                    {
-                        var uniqueFileName = _fileSystemAdapter.GenerateUniqueFileName(targetDirectory, outputFileName);
-                        outputPath = Path.Combine(targetDirectory, uniqueFileName);
-                        namingConflicts.Add(outputFileName);
-                    }
-
-                    // Extract metadata from the first PDF in the collection
-                    var firstPdfMetadata = await _pdfMerger.ExtractMetadataAsync(collectionPdfs[0]);
-
-                    // Merge all PDFs
-                    var mergeSuccess = await _pdfMerger.MergePdfsAsync(
-                        collectionPdfs, 
-                        outputPath, 
-                        firstPdfMetadata,
-                        cancellationToken);
-
-                    if (mergeSuccess)
-                    {
-                        consolidatedBooks.Add(outputPath);
-                        collectionsMerged++;
-                        _logger.LogInformation("Merged collection {CollectionName} with {Count} PDFs", 
-                            collectionName, collectionPdfs.Count);
-                    }
-                    else
-                    {
-                        _logger.LogError("Failed to merge collection: {CollectionName}", collectionName);
-                    }
                 }
             }
 
@@ -234,5 +169,171 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
         Debug.Assert(allPdfs.All(p => !string.IsNullOrWhiteSpace(p)), "All paths must be valid");
         
         return allPdfs;
+    }
+
+    /// <summary>
+    /// Processes an individual PDF file and copies it to the target directory
+    /// </summary>
+    private async Task<FileDestination> ProcessIndividualPdfAsync(
+        string pdfFile,
+        string targetDirectory,
+        IProgress<string>? progressCallback,
+        List<string> namingConflicts)
+    {
+        // Precondition: parameters must be valid
+        Debug.Assert(!string.IsNullOrWhiteSpace(pdfFile), "PDF file path must not be null");
+        Debug.Assert(!string.IsNullOrWhiteSpace(targetDirectory), "Target directory must not be null");
+
+        var fileName = Path.GetFileName(pdfFile);
+        progressCallback?.Report($"Copying individual PDF: {fileName}");
+        
+        var destinationPath = ResolveDestinationPath(targetDirectory, fileName, namingConflicts);
+
+        await _fileSystemAdapter.CopyFileAsync(pdfFile, destinationPath, false);
+        _logger.LogDebug("Copied individual PDF: {FileName}", fileName);
+        
+        // Postcondition: destination file should exist
+        Debug.Assert(_fileSystemAdapter.FileExists(destinationPath), "Destination file should exist after copy");
+        
+        var hadConflict = namingConflicts.Contains(fileName);
+        return new FileDestination(destinationPath, hadConflict);
+    }
+
+    /// <summary>
+    /// Processes a collection directory by either copying a single PDF or merging multiple PDFs
+    /// </summary>
+    private async Task<CollectionProcessingResult> ProcessCollectionAsync(
+        string subdirectory,
+        string targetDirectory,
+        IProgress<string>? progressCallback,
+        List<string> namingConflicts,
+        CancellationToken cancellationToken)
+    {
+        // Precondition: parameters must be valid
+        Debug.Assert(!string.IsNullOrWhiteSpace(subdirectory), "Subdirectory must not be null");
+        Debug.Assert(_fileSystemAdapter.DirectoryExists(subdirectory), "Subdirectory must exist");
+
+        var collectionName = Path.GetFileName(subdirectory);
+        progressCallback?.Report($"Processing collection: {collectionName}");
+
+        var collectionPdfs = await GetAllPdfsRecursivelyAsync(subdirectory);
+
+        var hasNoPdfs = collectionPdfs.Count == 0;
+        if (hasNoPdfs)
+        {
+            _logger.LogWarning("No PDFs found in collection: {CollectionName}", collectionName);
+            return new CollectionProcessingResult(string.Empty, false, false);
+        }
+
+        var isOnlyOnePdf = collectionPdfs.Count == 1;
+        if (isOnlyOnePdf)
+        {
+            return await ProcessSinglePdfCollectionAsync(
+                collectionPdfs[0], 
+                targetDirectory, 
+                namingConflicts);
+        }
+
+        return await ProcessMultiPdfCollectionAsync(
+            collectionPdfs,
+            collectionName,
+            targetDirectory,
+            progressCallback,
+            namingConflicts,
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Processes a collection containing a single PDF
+    /// </summary>
+    private async Task<CollectionProcessingResult> ProcessSinglePdfCollectionAsync(
+        string singlePdf,
+        string targetDirectory,
+        List<string> namingConflicts)
+    {
+        // Precondition
+        Debug.Assert(!string.IsNullOrWhiteSpace(singlePdf), "Single PDF path must not be null");
+
+        var fileName = Path.GetFileName(singlePdf);
+        var destinationPath = ResolveDestinationPath(targetDirectory, fileName, namingConflicts);
+
+        await _fileSystemAdapter.CopyFileAsync(singlePdf, destinationPath, false);
+        
+        // Postcondition
+        Debug.Assert(_fileSystemAdapter.FileExists(destinationPath), "Destination file should exist after copy");
+        
+        return new CollectionProcessingResult(destinationPath, false, true);
+    }
+
+    /// <summary>
+    /// Processes a collection containing multiple PDFs by merging them
+    /// </summary>
+    private async Task<CollectionProcessingResult> ProcessMultiPdfCollectionAsync(
+        List<string> collectionPdfs,
+        string collectionName,
+        string targetDirectory,
+        IProgress<string>? progressCallback,
+        List<string> namingConflicts,
+        CancellationToken cancellationToken)
+    {
+        // Precondition
+        Debug.Assert(collectionPdfs != null && collectionPdfs.Count > 1, "Must have multiple PDFs");
+
+        progressCallback?.Report($"Merging collection: {collectionName}");
+
+        var outputFileName = $"{collectionName}.pdf";
+        var outputPath = ResolveDestinationPath(targetDirectory, outputFileName, namingConflicts);
+
+        var firstPdfMetadata = await _pdfMerger.ExtractMetadataAsync(collectionPdfs[0]);
+
+        var mergeSuccess = await _pdfMerger.MergePdfsAsync(
+            collectionPdfs, 
+            outputPath, 
+            firstPdfMetadata,
+            cancellationToken);
+
+        if (mergeSuccess)
+        {
+            _logger.LogInformation("Merged collection {CollectionName} with {Count} PDFs", 
+                collectionName, collectionPdfs.Count);
+            
+            // Postcondition
+            Debug.Assert(_fileSystemAdapter.FileExists(outputPath), "Output file should exist after merge");
+            
+            return new CollectionProcessingResult(outputPath, true, false);
+        }
+
+        _logger.LogError("Failed to merge collection: {CollectionName}", collectionName);
+        return new CollectionProcessingResult(string.Empty, false, false);
+    }
+
+    /// <summary>
+    /// Resolves the destination path handling naming conflicts
+    /// </summary>
+    private string ResolveDestinationPath(
+        string targetDirectory,
+        string fileName,
+        List<string> namingConflicts)
+    {
+        // Precondition
+        Debug.Assert(!string.IsNullOrWhiteSpace(targetDirectory), "Target directory must not be null");
+        Debug.Assert(!string.IsNullOrWhiteSpace(fileName), "File name must not be null");
+
+        var destinationPath = Path.Combine(targetDirectory, fileName);
+        
+        var fileExists = _fileSystemAdapter.FileExists(destinationPath);
+        if (fileExists)
+        {
+            var uniqueFileName = _fileSystemAdapter.GenerateUniqueFileName(targetDirectory, fileName);
+            destinationPath = Path.Combine(targetDirectory, uniqueFileName);
+            namingConflicts.Add(fileName);
+            _logger.LogWarning("Naming conflict detected for {FileName}, using {UniqueFileName}", 
+                fileName, uniqueFileName);
+        }
+
+        // Postcondition
+        Debug.Assert(!string.IsNullOrWhiteSpace(destinationPath), "Destination path must be valid");
+
+        return destinationPath;
     }
 }
