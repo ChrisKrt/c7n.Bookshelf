@@ -65,8 +65,8 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
 
         try
         {
-            _logger.LogInformation("Starting consolidation from {SourceDirectory} to {TargetDirectory}", 
-                request.SourceDirectory, request.TargetDirectory);
+            _logger.LogInformation("Starting consolidation from {SourceDirectory} to {TargetDirectory} with {OrderingStrategy} ordering", 
+                request.SourceDirectory, request.TargetDirectory, request.OrderingStrategy);
             
             progressCallback?.Report("Starting consolidation...");
 
@@ -80,7 +80,7 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
 
             // Process root PDFs
             var rootPdfFiles = await _fileSystemAdapter.GetPdfFilesAsync(
-                new GetPdfFilesRequest(request.SourceDirectory));
+                new GetPdfFilesRequest(request.SourceDirectory, request.OrderingStrategy));
             foreach (var pdfFile in rootPdfFiles)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -105,6 +105,7 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
                 var result = await ProcessCollectionAsync(
                     subdirectory, 
                     request.TargetDirectory, 
+                    request.OrderingStrategy,
                     progressCallback, 
                     namingConflicts, 
                     cancellationToken);
@@ -150,7 +151,9 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
     /// <summary>
     /// Gets all PDF files recursively from a directory
     /// </summary>
-    private async Task<List<string>> GetAllPdfsRecursivelyAsync(string directoryPath)
+    private async Task<List<string>> GetAllPdfsRecursivelyAsync(
+        string directoryPath, 
+        FileOrderingStrategyType orderingStrategy)
     {
         // Precondition: directory path must be valid
         Debug.Assert(!string.IsNullOrWhiteSpace(directoryPath), "Directory path must not be null or whitespace");
@@ -158,8 +161,9 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
         
         var allPdfs = new List<string>();
         
-        // Get PDFs in current directory
-        var pdfs = await _fileSystemAdapter.GetPdfFilesAsync(new GetPdfFilesRequest(directoryPath));
+        // Get PDFs in current directory with semantic ordering
+        var pdfs = await _fileSystemAdapter.GetPdfFilesAsync(
+            new GetPdfFilesRequest(directoryPath, orderingStrategy));
         allPdfs.AddRange(pdfs);
 
         // Get PDFs from subdirectories
@@ -167,12 +171,12 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
             new GetSubdirectoriesRequest(directoryPath));
         foreach (var subdirectory in subdirectories)
         {
-            var subPdfs = await GetAllPdfsRecursivelyAsync(subdirectory);
+            var subPdfs = await GetAllPdfsRecursivelyAsync(subdirectory, orderingStrategy);
             allPdfs.AddRange(subPdfs);
         }
 
-        // Sort to ensure consistent ordering
-        allPdfs.Sort(StringComparer.OrdinalIgnoreCase);
+        // Note: Files are already ordered by the file system adapter using the semantic orderer
+        // No additional sorting needed here to preserve document structure ordering
         
         // Postcondition: result should not be null and all paths should be valid
         Debug.Assert(allPdfs != null, "Result list must not be null");
@@ -217,6 +221,7 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
     private async Task<CollectionProcessingResult> ProcessCollectionAsync(
         string subdirectory,
         string targetDirectory,
+        FileOrderingStrategyType orderingStrategy,
         IProgress<string>? progressCallback,
         List<string> namingConflicts,
         CancellationToken cancellationToken)
@@ -229,7 +234,7 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
         var collectionName = Path.GetFileName(subdirectory);
         progressCallback?.Report($"Processing collection: {collectionName}");
 
-        var collectionPdfs = await GetAllPdfsRecursivelyAsync(subdirectory);
+        var collectionPdfs = await GetAllPdfsRecursivelyAsync(subdirectory, orderingStrategy);
 
         var hasNoPdfs = collectionPdfs.Count == 0;
         if (hasNoPdfs)
