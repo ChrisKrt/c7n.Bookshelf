@@ -17,7 +17,8 @@ public sealed class MitpNamingPatternPlugin : INamingPatternPlugin
     private static readonly string[] MitpIndicators = new[]
     {
         "Cover", "Titel", "Inhaltsverzeichnis", "Einleitung",
-        "Kapitel_", "Anhang_", "Glossar", "Stichwortverzeichnis"
+        "Kapitel_", "Anhang_", "Glossar", "Stichwortverzeichnis",
+        "ber_den_Autor", "Vorwort"
     };
 
     /// <summary>
@@ -25,7 +26,7 @@ public sealed class MitpNamingPatternPlugin : INamingPatternPlugin
     /// </summary>
     private static readonly string[] FrontMatterPatterns = new[]
     {
-        "Cover", "Titel", "Inhaltsverzeichnis", "Einleitung"
+        "Cover", "Titel", "Vorwort", "Inhaltsverzeichnis", "Einleitung"
     };
 
     /// <summary>
@@ -33,7 +34,7 @@ public sealed class MitpNamingPatternPlugin : INamingPatternPlugin
     /// </summary>
     private static readonly string[] BackMatterPatterns = new[]
     {
-        "Glossar", "Stichwortverzeichnis"
+        "Glossar", "Stichwortverzeichnis", "ber_den_Autor"
     };
 
     /// <summary>
@@ -47,9 +48,9 @@ public sealed class MitpNamingPatternPlugin : INamingPatternPlugin
     private static readonly Regex AppendixPattern = new(@"Anhang_([A-Z])_", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
     /// <summary>
-    /// Regex pattern for duplicate files with "(1)" suffix
+    /// Regex pattern for duplicate files with "(1)" suffix (with optional space before parenthesis)
     /// </summary>
-    private static readonly Regex DuplicatePattern = new(@"\(\d+\)\.(pdf)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex DuplicatePattern = new(@"\s?\(\d+\)\.pdf$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
     /// <inheritdoc />
     public string Name => "mitp";
