@@ -598,8 +598,8 @@ def step_verify_duplicates_ignored(context):
     merged_pdf = os.path.join(context.target_dir, "MitpBook.pdf")
     if os.path.exists(merged_pdf):
         page_count = count_pdf_pages(merged_pdf)
-        # 12 original files - 1 duplicate = 11 expected pages
-        assert page_count == 11, f"Expected 11 pages (duplicates ignored), got {page_count}"
+        # 12 unique files (duplicate with (1) suffix ignored), each 1 page = 12 expected pages
+        assert page_count == 12, f"Expected 12 pages (duplicates ignored), got {page_count}"
 
 
 @then('the merged PDF should maintain the correct logical reading order')
