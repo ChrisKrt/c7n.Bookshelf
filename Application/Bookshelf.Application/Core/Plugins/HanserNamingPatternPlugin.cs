@@ -8,8 +8,8 @@ namespace Bookshelf.Application.Core.Plugins;
 /// </summary>
 public sealed class HanserNamingPatternPlugin : NamingPatternPluginBase
 {
-    // Pattern for ISBN-based file naming (9783446 followed by digits)
-    private const string IsbnPattern = @"97834\d{8}";
+    // Pattern for ISBN-based file naming (9783446 followed by 6 digits = 13 digit ISBN-13)
+    private const string IsbnPattern = @"9783446\d{6}";
 
     /// <inheritdoc />
     public override string PluginName => "Hanser Verlag";
