@@ -24,5 +24,6 @@ applyTo: "**/*.{cs,csproj,sln,slnx}"
 - the composition root is in the frontend project
 - use LINQ whenever possible
 - pass an ILogger to the constructor of a class that needs logging
+- classes are per default sealed, unless they are designed for inheritance
 
 

@@ -65,3 +65,87 @@ Feature: US0001 - Bookshelf Consolidation
     And the CLI should indicate when merging operations are occurring
     And the CLI should report the total number of books consolidated
     And the CLI should notify upon successful completion
+
+  @Issue25
+  Scenario: Handle mitp publisher naming pattern for chapter ordering
+    Given I have a PDF collection from mitp publisher
+    And the collection contains files with patterns like "Cover", "Titel", "Inhaltsverzeichnis", "Einleitung"
+    And the collection contains files with patterns like "Kapitel_1_", "Kapitel_2_", "Kapitel_10_", "Kapitel_11_"
+    And the collection contains files with patterns like "Anhang_A_", "Anhang_B_"
+    And the collection contains files with patterns like "Glossar", "Stichwortverzeichnis"
+    And the collection may contain duplicate files with "(1)" suffix
+    When I run the consolidation command
+    Then the system should detect the mitp naming pattern plugin
+    And front matter files (Cover, Titel, Inhaltsverzeichnis, Einleitung) should be placed first
+    And chapters should be ordered numerically (Kapitel_1, Kapitel_2, ..., Kapitel_10, Kapitel_11)
+    And appendices should be ordered alphabetically after chapters (Anhang_A, Anhang_B)
+    And back matter files (Glossar, Stichwortverzeichnis) should be placed at the end
+    And duplicate files with "(1)" suffix should be ignored
+    And the merged PDF should maintain the correct logical reading order
+
+  @Issue26
+  Scenario: Handle Wichmann Verlag naming pattern for chapter ordering
+    Given I have a PDF collection from Wichmann Verlag
+    And the collection contains files with patterns like "Vorwort", "Inhalt"
+    And the collection contains files with patterns like "_1_", "_2_", "_3_", "_4_", "_5_", "_6_", "_7_", "_8_"
+    And the collection contains files with patterns like "Anhnge", "Stichwortverzeichnis"
+    When I run the consolidation command
+    Then the system should detect the Wichmann Verlag naming pattern plugin
+    And front matter files (Vorwort, Inhalt) should be placed first
+    And chapters should be ordered numerically by the number in the pattern (_1_, _2_, ..., _8_)
+    And appendices (Anhnge) should be placed after chapters
+    And back matter files (Stichwortverzeichnis) should be placed at the end
+    And the merged PDF should maintain the correct logical reading order
+
+  @Issue27
+  Scenario: Plugin architecture supports multiple publisher patterns
+    Given I have PDF collections from different publishers
+    And the system uses a plugin architecture for naming pattern recognition
+    And I have a collection from mitp publisher with German naming conventions
+    And I have a collection from Wichmann Verlag with underscore-based numbering
+    When I run the consolidation command
+    Then the system should detect the appropriate naming pattern plugin for each collection
+    And each collection should be merged according to its publisher's pattern rules
+    And all merged PDFs should maintain their respective logical reading orders
+
+  @Issue28
+  Scenario: Handle Hanser Verlag ISBN-based naming pattern
+    Given I have a PDF collection from Hanser Verlag
+    And the collection contains files with ISBN pattern "9783446######.fm.pdf"
+    And the collection contains files with ISBN pattern "9783446######.001.pdf", "9783446######.002.pdf"
+    And the collection contains files with ISBN pattern "9783446######.bm.pdf"
+    When I run the consolidation command
+    Then the system should detect the Hanser Verlag naming pattern plugin
+    And front matter file (.fm.pdf) should be placed first
+    And chapters should be ordered numerically (.001, .002, ..., .010, .011)
+    And back matter file (.bm.pdf) should be placed at the end
+    And the merged PDF should maintain the correct logical reading order
+
+  @Issue29
+  Scenario: Handle O'Reilly English naming pattern
+    Given I have a PDF collection from O'Reilly publisher
+    And the collection contains files with patterns like "BEGINN", "Inhalt", "Vorwort"
+    And the collection contains files with pattern "Kapitel_1_", "Kapitel_2_", "Chapter_1_"
+    And the collection contains files with patterns like "Index", "Anhang"
+    When I run the consolidation command
+    Then the system should detect the O'Reilly naming pattern plugin
+    And front matter files (BEGINN, Inhalt, Vorwort) should be placed first
+    And chapters should be ordered numerically
+    And appendices (Anhang) should be placed after chapters
+    And back matter files (Index) should be placed at the end
+    And the merged PDF should maintain the correct logical reading order
+
+  @Issue30
+  Scenario: Handle Teil-based (Part-based) structure with chapters
+    Given I have a PDF collection with German Teil (Part) structure
+    And the collection contains files with pattern "Teil_I_", "Teil_II_", "Teil_III_"
+    And each Teil may contain multiple chapters with pattern "Kapitel_1_", "Kapitel_2_"
+    And the collection contains front matter like "BEGINN", "Vorwort", "Inhaltsverzeichnis"
+    And the collection contains back matter like "Index", "Anhang"
+    When I run the consolidation command
+    Then the system should detect the Teil-based naming pattern plugin
+    And front matter should be placed first
+    And Teile should be ordered numerically (Teil_I, Teil_II, Teil_III)
+    And chapters within each Teil should maintain their order
+    And back matter should be placed at the end
+    And the merged PDF should maintain the correct logical reading order
