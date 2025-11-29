@@ -1,6 +1,7 @@
 using Bookshelf.Application.Api;
 using Bookshelf.Application.Api.Dtos;
 using Bookshelf.Application.Core.Entities;
+using Bookshelf.Application.Core.Plugins;
 using Bookshelf.Application.Core.ValueObjects;
 using Bookshelf.Application.Spi;
 using Bookshelf.Application.Spi.Dtos;
@@ -17,6 +18,7 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
     private readonly IPdfMerger _pdfMerger;
     private readonly IFileSystemAdapter _fileSystemAdapter;
     private readonly ILogger<BookshelfConsolidationService> _logger;
+    private readonly NamingPatternPluginFactory _pluginFactory;
 
     /// <summary>
     /// Initializes a new instance of the BookshelfConsolidationService class
@@ -32,6 +34,7 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
         _pdfMerger = pdfMerger ?? throw new ArgumentNullException(nameof(pdfMerger));
         _fileSystemAdapter = fileSystemAdapter ?? throw new ArgumentNullException(nameof(fileSystemAdapter));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _pluginFactory = new NamingPatternPluginFactory();
     }
 
     /// <inheritdoc />
@@ -296,14 +299,30 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
 
         progressCallback?.Report($"Merging collection: {collectionName}");
 
+        // Detect and apply naming pattern plugin for ordering
+        var plugin = _pluginFactory.DetectPlugin(collectionPdfs);
+        _logger.LogInformation("Using {PluginName} naming pattern plugin for collection {CollectionName}",
+            plugin.PluginName, collectionName);
+        progressCallback?.Report($"Detected {plugin.PluginName} naming pattern");
+
+        // Filter and order files according to publisher pattern
+        var filteredFiles = plugin.FilterFiles(collectionPdfs);
+        var orderedFiles = plugin.OrderFiles(filteredFiles.ToList()).ToList();
+
+        if (orderedFiles.Count == 0)
+        {
+            _logger.LogWarning("No files remaining after filtering for collection: {CollectionName}", collectionName);
+            return new CollectionProcessingResult(string.Empty, false, false);
+        }
+
         var outputFileName = $"{collectionName}.pdf";
         var outputPath = ResolveDestinationPath(targetDirectory, outputFileName, namingConflicts);
 
         var firstPdfMetadata = await _pdfMerger.ExtractMetadataAsync(
-            new ExtractMetadataRequest(collectionPdfs[0]));
+            new ExtractMetadataRequest(orderedFiles[0]));
 
         var mergeRequest = new MergePdfsRequest(
-            collectionPdfs,
+            orderedFiles,
             outputPath,
             firstPdfMetadata);
 
@@ -311,8 +330,8 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
 
         if (mergeSuccess)
         {
-            _logger.LogInformation("Merged collection {CollectionName} with {Count} PDFs", 
-                collectionName, collectionPdfs.Count);
+            _logger.LogInformation("Merged collection {CollectionName} with {Count} PDFs using {PluginName} pattern", 
+                collectionName, orderedFiles.Count, plugin.PluginName);
             
             // Postcondition
             Debug.Assert(_fileSystemAdapter.FileExists(new FileExistsRequest(outputPath)), 
