@@ -16,6 +16,7 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
 {
     private readonly IPdfMerger _pdfMerger;
     private readonly IFileSystemAdapter _fileSystemAdapter;
+    private readonly INamingPatternPluginRegistry _namingPatternPluginRegistry;
     private readonly ILogger<BookshelfConsolidationService> _logger;
 
     /// <summary>
@@ -23,14 +24,17 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
     /// </summary>
     /// <param name="pdfMerger">The PDF merger</param>
     /// <param name="fileSystemAdapter">The file system adapter</param>
+    /// <param name="namingPatternPluginRegistry">The naming pattern plugin registry</param>
     /// <param name="logger">The logger</param>
     public BookshelfConsolidationService(
         IPdfMerger pdfMerger,
         IFileSystemAdapter fileSystemAdapter,
+        INamingPatternPluginRegistry namingPatternPluginRegistry,
         ILogger<BookshelfConsolidationService> logger)
     {
         _pdfMerger = pdfMerger ?? throw new ArgumentNullException(nameof(pdfMerger));
         _fileSystemAdapter = fileSystemAdapter ?? throw new ArgumentNullException(nameof(fileSystemAdapter));
+        _namingPatternPluginRegistry = namingPatternPluginRegistry ?? throw new ArgumentNullException(nameof(namingPatternPluginRegistry));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -296,14 +300,17 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
 
         progressCallback?.Report($"Merging collection: {collectionName}");
 
+        // Find and apply appropriate naming pattern plugin for ordering
+        var orderedPdfs = OrderPdfsByNamingPattern(collectionPdfs, progressCallback);
+
         var outputFileName = $"{collectionName}.pdf";
         var outputPath = ResolveDestinationPath(targetDirectory, outputFileName, namingConflicts);
 
         var firstPdfMetadata = await _pdfMerger.ExtractMetadataAsync(
-            new ExtractMetadataRequest(collectionPdfs[0]));
+            new ExtractMetadataRequest(orderedPdfs[0]));
 
         var mergeRequest = new MergePdfsRequest(
-            collectionPdfs,
+            orderedPdfs,
             outputPath,
             firstPdfMetadata);
 
@@ -312,7 +319,7 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
         if (mergeSuccess)
         {
             _logger.LogInformation("Merged collection {CollectionName} with {Count} PDFs", 
-                collectionName, collectionPdfs.Count);
+                collectionName, orderedPdfs.Count);
             
             // Postcondition
             Debug.Assert(_fileSystemAdapter.FileExists(new FileExistsRequest(outputPath)), 
@@ -323,6 +330,36 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
 
         _logger.LogError("Failed to merge collection: {CollectionName}", collectionName);
         return new CollectionProcessingResult(string.Empty, false, false);
+    }
+
+    /// <summary>
+    /// Orders PDF files according to the appropriate naming pattern plugin
+    /// </summary>
+    private List<string> OrderPdfsByNamingPattern(
+        List<string> pdfFiles,
+        IProgress<string>? progressCallback)
+    {
+        // Precondition
+        Debug.Assert(pdfFiles != null && pdfFiles.Count > 0, "Must have at least one PDF");
+
+        var plugin = _namingPatternPluginRegistry.FindPlugin(pdfFiles);
+        
+        if (plugin != null)
+        {
+            _logger.LogDebug("Using naming pattern plugin: {PluginName}", plugin.Name);
+            progressCallback?.Report($"Detected {plugin.Name} naming pattern");
+            
+            var orderedFiles = plugin.OrderFiles(pdfFiles);
+            
+            // Postcondition
+            Debug.Assert(orderedFiles != null, "Ordered files must not be null");
+            
+            return orderedFiles.ToList();
+        }
+
+        // If no plugin found, return the files in original order
+        _logger.LogDebug("No naming pattern plugin found, using original order");
+        return pdfFiles;
     }
 
     /// <summary>

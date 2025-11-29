@@ -1,5 +1,6 @@
 using Bookshelf.Application.Spi;
 using Bookshelf.Infrastructure.Adapters;
+using Bookshelf.Infrastructure.Adapters.NamingPatternPlugins;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Bookshelf.Infrastructure;
@@ -18,6 +19,17 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<IFileSystemAdapter, FileSystemAdapter>();
         services.AddSingleton<IPdfMerger, PdfMerger>();
+        
+        // Register naming pattern plugins
+        services.AddSingleton<INamingPatternPlugin, MitpNamingPatternPlugin>();
+        services.AddSingleton<INamingPatternPlugin, WichmannVerlagNamingPatternPlugin>();
+        services.AddSingleton<INamingPatternPlugin, HanserVerlagNamingPatternPlugin>();
+        services.AddSingleton<INamingPatternPlugin, OReillyNamingPatternPlugin>();
+        services.AddSingleton<INamingPatternPlugin, TeilBasedNamingPatternPlugin>();
+        services.AddSingleton<INamingPatternPlugin, DefaultNamingPatternPlugin>();
+        
+        // Register the plugin registry
+        services.AddSingleton<INamingPatternPluginRegistry, NamingPatternPluginRegistry>();
         
         return services;
     }
