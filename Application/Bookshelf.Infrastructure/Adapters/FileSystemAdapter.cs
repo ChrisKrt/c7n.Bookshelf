@@ -8,10 +8,6 @@ namespace Bookshelf.Infrastructure.Adapters;
 /// </summary>
 public class FileSystemAdapter : IFileSystemAdapter
 {
-    private readonly SemanticFileOrderer _semanticOrderer = new();
-    private readonly AlphabeticFileOrderer _alphabeticOrderer = new();
-    private readonly TimestampFileOrderer _timestampOrderer = new();
-
     /// <inheritdoc />
     public Task<IReadOnlyList<string>> GetPdfFilesAsync(GetPdfFilesRequest request)
     {
@@ -25,9 +21,9 @@ public class FileSystemAdapter : IFileSystemAdapter
                     return Array.Empty<string>();
                 }
 
-                var files = Directory.GetFiles(request.DirectoryPath, "*.pdf", SearchOption.TopDirectoryOnly);
-                var orderer = GetOrderingStrategy(request.OrderingStrategy);
-                return orderer.OrderFiles(files);
+                return Directory.GetFiles(request.DirectoryPath, "*.pdf", SearchOption.TopDirectoryOnly)
+                    .OrderBy(f => f, StringComparer.OrdinalIgnoreCase)
+                    .ToList();
             }
             catch (Exception ex) when (ex is UnauthorizedAccessException or IOException)
             {
@@ -35,20 +31,6 @@ public class FileSystemAdapter : IFileSystemAdapter
                 return Array.Empty<string>();
             }
         });
-    }
-
-    /// <summary>
-    /// Gets the appropriate ordering strategy based on the strategy type
-    /// </summary>
-    private IFileOrderingStrategy GetOrderingStrategy(FileOrderingStrategyType strategyType)
-    {
-        return strategyType switch
-        {
-            FileOrderingStrategyType.Semantic => _semanticOrderer,
-            FileOrderingStrategyType.Alphabetic => _alphabeticOrderer,
-            FileOrderingStrategyType.Timestamp => _timestampOrderer,
-            _ => _semanticOrderer
-        };
     }
 
     /// <inheritdoc />

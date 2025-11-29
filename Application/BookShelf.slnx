@@ -1,7 +1,4 @@
 <Solution>
-  <Folder Name="/tests/">
-    <Project Path="tests/Bookshelf.Infrastructure.Tests/Bookshelf.Infrastructure.Tests.csproj" />
-  </Folder>
   <Project Path="Bookshelf.Application/Bookshelf.Application.csproj" />
   <Project Path="Bookshelf.Cli/Bookshelf.Cli.csproj" />
   <Project Path="Bookshelf.Infrastructure/Bookshelf.Infrastructure.csproj" />

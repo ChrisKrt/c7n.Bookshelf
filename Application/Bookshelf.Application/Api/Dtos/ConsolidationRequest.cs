@@ -1,5 +1,3 @@
-using Bookshelf.Application.Spi;
-
 namespace Bookshelf.Application.Api.Dtos;
 
 /// <summary>
@@ -7,5 +5,4 @@ namespace Bookshelf.Application.Api.Dtos;
 /// </summary>
 public sealed record ConsolidationRequest(
     string SourceDirectory,
-    string TargetDirectory,
-    FileOrderingStrategyType OrderingStrategy = FileOrderingStrategyType.Semantic);
+    string TargetDirectory);

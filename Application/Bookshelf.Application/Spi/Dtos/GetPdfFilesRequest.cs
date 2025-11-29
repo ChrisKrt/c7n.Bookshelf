@@ -3,6 +3,4 @@ namespace Bookshelf.Application.Spi.Dtos;
 /// <summary>
 /// Request to get PDF files from a directory
 /// </summary>
-public sealed record GetPdfFilesRequest(
-    string DirectoryPath,
-    FileOrderingStrategyType OrderingStrategy = FileOrderingStrategyType.Semantic);
+public sealed record GetPdfFilesRequest(string DirectoryPath);
