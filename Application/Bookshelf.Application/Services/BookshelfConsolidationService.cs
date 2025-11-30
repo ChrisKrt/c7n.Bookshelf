@@ -18,7 +18,7 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
     private readonly IPdfMerger _pdfMerger;
     private readonly IFileSystemAdapter _fileSystemAdapter;
     private readonly ILogger<BookshelfConsolidationService> _logger;
-    private readonly NamingPatternPluginFactory _pluginFactory;
+    private readonly INamingPatternPluginFactory _pluginFactory;
 
     /// <summary>
     /// Initializes a new instance of the BookshelfConsolidationService class
@@ -26,15 +26,17 @@ public class BookshelfConsolidationService : IBookshelfConsolidationService
     /// <param name="pdfMerger">The PDF merger</param>
     /// <param name="fileSystemAdapter">The file system adapter</param>
     /// <param name="logger">The logger</param>
+    /// <param name="pluginFactory">The naming pattern plugin factory</param>
     public BookshelfConsolidationService(
         IPdfMerger pdfMerger,
         IFileSystemAdapter fileSystemAdapter,
-        ILogger<BookshelfConsolidationService> logger)
+        ILogger<BookshelfConsolidationService> logger,
+        INamingPatternPluginFactory pluginFactory)
     {
         _pdfMerger = pdfMerger ?? throw new ArgumentNullException(nameof(pdfMerger));
         _fileSystemAdapter = fileSystemAdapter ?? throw new ArgumentNullException(nameof(fileSystemAdapter));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _pluginFactory = new NamingPatternPluginFactory();
+        _pluginFactory = pluginFactory ?? throw new ArgumentNullException(nameof(pluginFactory));
     }
 
     /// <inheritdoc />

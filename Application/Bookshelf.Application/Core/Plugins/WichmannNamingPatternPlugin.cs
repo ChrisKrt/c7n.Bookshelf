@@ -21,6 +21,11 @@ public sealed class WichmannNamingPatternPlugin : NamingPatternPluginBase
     /// <inheritdoc />
     public override bool CanHandle(IReadOnlyList<string> pdfFilePaths)
     {
+        if (pdfFilePaths == null)
+        {
+            throw new ArgumentNullException(nameof(pdfFilePaths));
+        }
+
         var fileNames = pdfFilePaths.Select(GetFileName).ToList();
         
         // Check for characteristic Wichmann patterns: _1_, _2_, etc.

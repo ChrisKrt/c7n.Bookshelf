@@ -23,6 +23,11 @@ public sealed class MitpNamingPatternPlugin : NamingPatternPluginBase
     /// <inheritdoc />
     public override bool CanHandle(IReadOnlyList<string> pdfFilePaths)
     {
+        if (pdfFilePaths == null)
+        {
+            throw new ArgumentNullException(nameof(pdfFilePaths));
+        }
+
         var fileNames = pdfFilePaths.Select(GetFileName).ToList();
         
         // Check for characteristic mitp patterns

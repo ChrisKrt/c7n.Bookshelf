@@ -1,11 +1,9 @@
-using System.Diagnostics;
-
 namespace Bookshelf.Application.Core.Plugins;
 
 /// <summary>
 /// Factory for creating and selecting appropriate naming pattern plugins
 /// </summary>
-public sealed class NamingPatternPluginFactory
+public sealed class NamingPatternPluginFactory : INamingPatternPluginFactory
 {
     private readonly List<INamingPatternPlugin> _plugins;
     private readonly INamingPatternPlugin _defaultPlugin;
@@ -30,18 +28,32 @@ public sealed class NamingPatternPluginFactory
     }
 
     /// <summary>
-    /// Gets all registered plugins
+    /// Initializes a new instance of the NamingPatternPluginFactory class with custom plugins
     /// </summary>
+    /// <param name="plugins">The plugins to register</param>
+    /// <param name="defaultPlugin">The default plugin to use when no plugin matches</param>
+    /// <exception cref="ArgumentNullException">Thrown when plugins or defaultPlugin is null</exception>
+    public NamingPatternPluginFactory(IEnumerable<INamingPatternPlugin> plugins, INamingPatternPlugin defaultPlugin)
+    {
+        if (plugins == null)
+        {
+            throw new ArgumentNullException(nameof(plugins));
+        }
+
+        _defaultPlugin = defaultPlugin ?? throw new ArgumentNullException(nameof(defaultPlugin));
+        _plugins = plugins.OrderByDescending(p => p.Priority).ToList();
+    }
+
+    /// <inheritdoc />
     public IReadOnlyList<INamingPatternPlugin> Plugins => _plugins;
 
-    /// <summary>
-    /// Detects the appropriate naming pattern plugin for the given PDF files
-    /// </summary>
-    /// <param name="pdfFilePaths">The PDF file paths to analyze</param>
-    /// <returns>The detected plugin, or the default plugin if none match</returns>
+    /// <inheritdoc />
     public INamingPatternPlugin DetectPlugin(IReadOnlyList<string> pdfFilePaths)
     {
-        Debug.Assert(pdfFilePaths != null, "PDF file paths must not be null");
+        if (pdfFilePaths == null)
+        {
+            throw new ArgumentNullException(nameof(pdfFilePaths));
+        }
 
         foreach (var plugin in _plugins)
         {
@@ -54,14 +66,13 @@ public sealed class NamingPatternPluginFactory
         return _defaultPlugin;
     }
 
-    /// <summary>
-    /// Gets a plugin by name
-    /// </summary>
-    /// <param name="pluginName">The plugin name</param>
-    /// <returns>The plugin if found, null otherwise</returns>
+    /// <inheritdoc />
     public INamingPatternPlugin? GetPlugin(string pluginName)
     {
-        Debug.Assert(!string.IsNullOrWhiteSpace(pluginName), "Plugin name must not be null or whitespace");
+        if (string.IsNullOrWhiteSpace(pluginName))
+        {
+            throw new ArgumentException("Plugin name cannot be null or whitespace", nameof(pluginName));
+        }
 
         return _plugins.FirstOrDefault(p => 
             p.PluginName.Equals(pluginName, StringComparison.OrdinalIgnoreCase));

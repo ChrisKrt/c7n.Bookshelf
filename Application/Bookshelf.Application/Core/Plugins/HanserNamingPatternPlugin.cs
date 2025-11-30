@@ -20,6 +20,11 @@ public sealed class HanserNamingPatternPlugin : NamingPatternPluginBase
     /// <inheritdoc />
     public override bool CanHandle(IReadOnlyList<string> pdfFilePaths)
     {
+        if (pdfFilePaths == null)
+        {
+            throw new ArgumentNullException(nameof(pdfFilePaths));
+        }
+
         var fileNames = pdfFilePaths.Select(GetFileName).ToList();
         
         // Check for ISBN-based naming pattern with .fm. or .bm. or numeric extensions

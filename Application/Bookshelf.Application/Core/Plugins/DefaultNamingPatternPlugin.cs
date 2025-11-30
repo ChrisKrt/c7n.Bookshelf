@@ -15,6 +15,11 @@ public sealed class DefaultNamingPatternPlugin : NamingPatternPluginBase
     /// <inheritdoc />
     public override bool CanHandle(IReadOnlyList<string> pdfFilePaths)
     {
+        if (pdfFilePaths == null)
+        {
+            throw new ArgumentNullException(nameof(pdfFilePaths));
+        }
+
         // Always returns true as this is the fallback
         return true;
     }

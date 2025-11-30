@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace Bookshelf.Application.Core.Plugins;
@@ -20,7 +19,10 @@ public abstract class NamingPatternPluginBase : INamingPatternPlugin
     /// <inheritdoc />
     public virtual IReadOnlyList<string> OrderFiles(IReadOnlyList<string> pdfFilePaths)
     {
-        Debug.Assert(pdfFilePaths != null, "PDF file paths must not be null");
+        if (pdfFilePaths == null)
+        {
+            throw new ArgumentNullException(nameof(pdfFilePaths));
+        }
 
         var filteredFiles = FilterFiles(pdfFilePaths);
         var categorizedFiles = filteredFiles
@@ -36,7 +38,10 @@ public abstract class NamingPatternPluginBase : INamingPatternPlugin
     /// <inheritdoc />
     public virtual IReadOnlyList<string> FilterFiles(IReadOnlyList<string> pdfFilePaths)
     {
-        Debug.Assert(pdfFilePaths != null, "PDF file paths must not be null");
+        if (pdfFilePaths == null)
+        {
+            throw new ArgumentNullException(nameof(pdfFilePaths));
+        }
 
         return pdfFilePaths
             .Where(f => !IsDuplicateFile(f))

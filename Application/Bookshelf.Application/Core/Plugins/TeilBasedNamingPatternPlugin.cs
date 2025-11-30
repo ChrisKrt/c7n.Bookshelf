@@ -24,6 +24,11 @@ public sealed class TeilBasedNamingPatternPlugin : NamingPatternPluginBase
     /// <inheritdoc />
     public override bool CanHandle(IReadOnlyList<string> pdfFilePaths)
     {
+        if (pdfFilePaths == null)
+        {
+            throw new ArgumentNullException(nameof(pdfFilePaths));
+        }
+
         var fileNames = pdfFilePaths.Select(GetFileName).ToList();
         
         // Check for Teil pattern with Roman numerals

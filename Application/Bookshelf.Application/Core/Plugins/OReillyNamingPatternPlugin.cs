@@ -23,6 +23,11 @@ public sealed class OReillyNamingPatternPlugin : NamingPatternPluginBase
     /// <inheritdoc />
     public override bool CanHandle(IReadOnlyList<string> pdfFilePaths)
     {
+        if (pdfFilePaths == null)
+        {
+            throw new ArgumentNullException(nameof(pdfFilePaths));
+        }
+
         var fileNames = pdfFilePaths.Select(GetFileName).ToList();
         
         // O'Reilly supports both Kapitel_ and Chapter_ patterns
