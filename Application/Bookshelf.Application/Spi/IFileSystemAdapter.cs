@@ -54,4 +54,11 @@ public interface IFileSystemAdapter
     /// <param name="request">The request containing directory path and desired file name</param>
     /// <returns>A unique file name</returns>
     string GenerateUniqueFileName(GenerateUniqueFileNameRequest request);
+
+    /// <summary>
+    /// Gets file information for a specified file
+    /// </summary>
+    /// <param name="request">The request containing the file path</param>
+    /// <returns>File information including size and creation date</returns>
+    Task<FileInfoResult> GetFileInfoAsync(GetFileInfoRequest request);
 }

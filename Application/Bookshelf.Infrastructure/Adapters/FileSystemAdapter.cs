@@ -116,4 +116,27 @@ public class FileSystemAdapter : IFileSystemAdapter
 
         return candidateFileName;
     }
+
+    /// <inheritdoc />
+    public Task<FileInfoResult> GetFileInfoAsync(GetFileInfoRequest request)
+    {
+        try
+        {
+            var fileInfo = new FileInfo(request.FilePath);
+            return Task.FromResult(new FileInfoResult(
+                fileInfo.Name,
+                fileInfo.FullName,
+                fileInfo.Length,
+                fileInfo.CreationTime));
+        }
+        catch (Exception ex) when (ex is UnauthorizedAccessException or IOException or FileNotFoundException)
+        {
+            // Return default values for inaccessible files
+            return Task.FromResult(new FileInfoResult(
+                Path.GetFileName(request.FilePath),
+                request.FilePath,
+                0,
+                DateTime.MinValue));
+        }
+    }
 }

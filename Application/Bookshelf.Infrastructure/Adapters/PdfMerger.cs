@@ -205,4 +205,35 @@ public class PdfMerger : IPdfMerger
             return null;
         }
     }
+
+    /// <inheritdoc />
+    /// <inheritdoc />
+    public Task<int?> GetPageCountAsync(GetPdfPageCountRequest request)
+    {
+        try
+        {
+            var fileDoesNotExist = !File.Exists(request.FilePath);
+            if (fileDoesNotExist)
+            {
+                _logger.LogWarning("PDF file not found: {FilePath}", request.FilePath);
+                return Task.FromResult<int?>(null);
+            }
+
+            try
+            {
+                using var document = PdfReader.Open(request.FilePath, PdfDocumentOpenMode.Import);
+                return Task.FromResult<int?>(document.PageCount);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Error reading page count from {FilePath}", request.FilePath);
+                return Task.FromResult<int?>(null);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting page count from {FilePath}", request.FilePath);
+            return Task.FromResult<int?>(null);
+        }
+    }
 }

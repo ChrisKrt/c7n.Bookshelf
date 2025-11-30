@@ -24,4 +24,11 @@ public interface IPdfMerger
     /// <param name="request">The request containing the PDF path</param>
     /// <returns>The extracted metadata</returns>
     Task<BookMetadata> ExtractMetadataAsync(ExtractMetadataRequest request);
+
+    /// <summary>
+    /// Gets the page count of a PDF file
+    /// </summary>
+    /// <param name="request">The request containing the PDF path</param>
+    /// <returns>The number of pages in the PDF, or null if unable to read</returns>
+    Task<int?> GetPageCountAsync(GetPdfPageCountRequest request);
 }

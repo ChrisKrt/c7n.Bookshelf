@@ -38,6 +38,7 @@ try
     
     // Register commands
     services.AddTransient<ConsolidateCommand>();
+    services.AddTransient<ListCommand>();
     
     // Build service provider
     var serviceProvider = services.BuildServiceProvider();
@@ -52,6 +53,13 @@ try
         config.AddCommand<ConsolidateCommand>("consolidate")
             .WithDescription("Consolidate scattered PDF files into a single bookshelf")
             .WithExample("consolidate", "/path/to/source", "/path/to/bookshelf");
+
+        config.AddCommand<ListCommand>("list")
+            .WithDescription("List all books in a bookshelf")
+            .WithExample("list", "/path/to/bookshelf")
+            .WithExample("list", "/path/to/bookshelf", "--details")
+            .WithExample("list", "/path/to/bookshelf", "--filter", "Python")
+            .WithExample("list", "/path/to/bookshelf", "--sort", "size", "--reverse");
     });
 
     return await app.RunAsync(args);

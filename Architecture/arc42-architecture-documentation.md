@@ -207,3 +207,132 @@ Future enhancements could include:
 - Incremental consolidation (skip already processed files)
 - Duplicate detection based on content hash
 
+# US0002 - Bookshelf List Feature
+
+## Overview
+
+The Bookshelf List feature implements US0002, enabling users to view all books in their bookshelf with filtering, sorting, and detailed information display options.
+
+## Architecture
+
+The implementation follows Clean Architecture principles with clear separation of concerns:
+
+### Domain Layer (Application/Core)
+
+**Entities:**
+- `BookListResult`: Contains the results of a list operation with success status and book collection
+
+### Application Layer
+
+**API (Public Interface):**
+- `IBookshelfListService`: Service contract for listing books operations
+- `ListBooksRequest`: Request DTO with filtering and sorting options
+- `BookInfo`: DTO representing book information (title, size, date, pages)
+
+**Services:**
+- `BookshelfListService`: Implements listing logic with filtering, sorting, and page count retrieval
+
+**SPI Extensions:**
+- `IFileSystemAdapter.GetFileInfoAsync`: Retrieves file metadata (size, creation date)
+- `IPdfMerger.GetPageCountAsync`: Extracts page count from PDF files
+
+### Infrastructure Layer
+
+**Adapter Extensions:**
+- `FileSystemAdapter.GetFileInfoAsync`: Implements file info retrieval using System.IO.FileInfo
+- `PdfMerger.GetPageCountAsync`: Implements page count extraction using PdfSharp
+
+### Presentation Layer (CLI)
+
+**Commands:**
+- `ListCommand`: Spectre.Console CLI command with table and list display modes
+- `ListSettings`: Command settings with filter, sort, details, and reverse options
+
+## Design Decisions
+
+### Sorting Behavior
+
+**Decision:** Default alphabetical sorting by title, with options for size, date, and pages
+**Rationale:**
+- Alphabetical is most intuitive for browsing
+- Multiple sort options accommodate different use cases
+- Null page counts sorted to end for consistent behavior
+
+### Filtering
+
+**Decision:** Case-insensitive partial matching on book titles
+**Rationale:**
+- Simple and intuitive user experience
+- Covers most common search use cases
+- Fast in-memory filtering
+
+### Display Modes
+
+**Decision:** Two display modes - simple list and detailed table
+**Rationale:**
+- Simple list for quick browsing
+- Detailed table for comparison and analysis
+- Spectre.Console provides rich table formatting
+
+### Page Count Handling
+
+**Decision:** Page count extraction is optional and failure-tolerant
+**Rationale:**
+- Not all PDFs are readable (corrupted, encrypted)
+- Operation should not fail due to single file issues
+- Display "-" for unknown page counts
+
+## Component Interactions
+
+```
+User → ListCommand (CLI)
+       ↓
+       BookshelfListService (Application)
+       ↓                        ↓
+       FileSystemAdapter        PdfMerger
+       (Get file info)          (Get page count)
+       ↓
+       BookListResult → Display (Table/List)
+```
+
+## Request/Response Flow
+
+1. User invokes `bookshelf list <directory> [options]`
+2. `ListCommand` validates settings and creates `ListBooksRequest`
+3. `BookshelfListService` processes request:
+   - Gets PDF files from directory via `IFileSystemAdapter`
+   - Retrieves file info (size, date) for each file
+   - Optionally retrieves page counts via `IPdfMerger`
+   - Applies title filter if specified
+   - Applies sorting based on sort field and direction
+4. Returns `BookListResult` with filtered and sorted books
+5. `ListCommand` displays results as list or table based on options
+
+## Testing Strategy
+
+The feature is tested using Behavior-Driven Development (BDD):
+
+- **Framework:** Behave (Python)
+- **Test File:** `Application/tests/e2e/features/US0002-Bookshelf-List.feature`
+- **Scenarios:** 5 acceptance criteria scenarios
+  1. Display basic list of books in bookshelf
+  2. Show detailed book information in list
+  3. Filter list by book title
+  4. Sort list by different criteria
+  5. Display empty bookshelf message
+
+## Dependencies
+
+- **PdfSharp 6.2.2**: PDF page count extraction
+- **Spectre.Console.Cli 0.53.0**: Table formatting and CLI options
+- **Serilog**: Structured logging
+- **Microsoft.Extensions.DependencyInjection**: Dependency injection
+
+## Extension Points
+
+Future enhancements could include:
+- Additional filter criteria (date range, size range)
+- Multiple sort fields
+- Export list to file (CSV, JSON)
+- Search within PDF content
+- Tag-based organization
