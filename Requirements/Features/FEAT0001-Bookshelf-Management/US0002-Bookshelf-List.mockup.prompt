@@ -1,0 +1,263 @@
+# CLI Command Mockup: Bookshelf List
+
+## Basic Usage
+
+```bash
+bookshelf list "/path/to/bookshelf"
+```
+
+## Basic List Output
+
+```bash
+PS C:\> bookshelf list "C:\MyBookshelf"
+
+╭───────────────────╮
+│ Bookshelf Listing │
+╰───────────────────╯
+
+Bookshelf: C:\MyBookshelf
+
+  📖 Advanced Python Programming
+  📖 Clean Code
+  📖 Design Patterns
+  📖 Domain-Driven Design
+  📖 Java The Complete Reference
+  📖 Python Crash Course
+  📖 Refactoring
+  📖 The Pragmatic Programmer
+
+Total books: 8
+```
+
+## Detailed View
+
+```bash
+PS C:\> bookshelf list "C:\MyBookshelf" --details
+
+╭───────────────────╮
+│ Bookshelf Listing │
+╰───────────────────╯
+
+Bookshelf: C:\MyBookshelf
+
+╭─────────────────────────────────┬─────────┬────────────┬───────╮
+│ Title                           │ Size    │ Created    │ Pages │
+├─────────────────────────────────┼─────────┼────────────┼───────┤
+│ Advanced Python Programming     │ 2.5 MB  │ 2025-01-15 │ 342   │
+│ Clean Code                      │ 4.1 MB  │ 2024-11-20 │ 464   │
+│ Design Patterns                 │ 3.2 MB  │ 2024-09-10 │ 395   │
+│ Domain-Driven Design            │ 5.8 MB  │ 2024-06-22 │ 560   │
+│ Java The Complete Reference     │ 8.4 MB  │ 2025-02-01 │ 1248  │
+│ Python Crash Course             │ 2.1 MB  │ 2024-12-05 │ 288   │
+│ Refactoring                     │ 3.5 MB  │ 2024-08-18 │ 412   │
+│ The Pragmatic Programmer        │ 2.8 MB  │ 2024-10-30 │ 352   │
+╰─────────────────────────────────┴─────────┴────────────┴───────╯
+
+Total books: 8
+```
+
+## Filtering by Title
+
+```bash
+PS C:\> bookshelf list "C:\MyBookshelf" --filter python
+
+╭───────────────────╮
+│ Bookshelf Listing │
+╰───────────────────╯
+
+Bookshelf: C:\MyBookshelf
+Filter: python
+
+  📖 Advanced Python Programming
+  📖 Python Crash Course
+
+Total books: 2
+```
+
+## Filtering with Details
+
+```bash
+PS C:\> bookshelf list "C:\MyBookshelf" --filter python --details
+
+╭───────────────────╮
+│ Bookshelf Listing │
+╰───────────────────╯
+
+Bookshelf: C:\MyBookshelf
+Filter: python
+
+╭─────────────────────────────────┬─────────┬────────────┬───────╮
+│ Title                           │ Size    │ Created    │ Pages │
+├─────────────────────────────────┼─────────┼────────────┼───────┤
+│ Advanced Python Programming     │ 2.5 MB  │ 2025-01-15 │ 342   │
+│ Python Crash Course             │ 2.1 MB  │ 2024-12-05 │ 288   │
+╰─────────────────────────────────┴─────────┴────────────┴───────╯
+
+Total books: 2
+```
+
+## Sorting by File Size (Largest First)
+
+```bash
+PS C:\> bookshelf list "C:\MyBookshelf" --details --sort size --reverse
+
+╭───────────────────╮
+│ Bookshelf Listing │
+╰───────────────────╯
+
+Bookshelf: C:\MyBookshelf
+
+╭─────────────────────────────────┬─────────┬────────────┬───────╮
+│ Title                           │ Size    │ Created    │ Pages │
+├─────────────────────────────────┼─────────┼────────────┼───────┤
+│ Java The Complete Reference     │ 8.4 MB  │ 2025-02-01 │ 1248  │
+│ Domain-Driven Design            │ 5.8 MB  │ 2024-06-22 │ 560   │
+│ Clean Code                      │ 4.1 MB  │ 2024-11-20 │ 464   │
+│ Refactoring                     │ 3.5 MB  │ 2024-08-18 │ 412   │
+│ Design Patterns                 │ 3.2 MB  │ 2024-09-10 │ 395   │
+│ The Pragmatic Programmer        │ 2.8 MB  │ 2024-10-30 │ 352   │
+│ Advanced Python Programming     │ 2.5 MB  │ 2025-01-15 │ 342   │
+│ Python Crash Course             │ 2.1 MB  │ 2024-12-05 │ 288   │
+╰─────────────────────────────────┴─────────┴────────────┴───────╯
+
+Total books: 8
+```
+
+## Sorting by Page Count
+
+```bash
+PS C:\> bookshelf list "C:\MyBookshelf" --details --sort pages
+
+╭───────────────────╮
+│ Bookshelf Listing │
+╰───────────────────╯
+
+Bookshelf: C:\MyBookshelf
+
+╭─────────────────────────────────┬─────────┬────────────┬───────╮
+│ Title                           │ Size    │ Created    │ Pages │
+├─────────────────────────────────┼─────────┼────────────┼───────┤
+│ Python Crash Course             │ 2.1 MB  │ 2024-12-05 │ 288   │
+│ Advanced Python Programming     │ 2.5 MB  │ 2025-01-15 │ 342   │
+│ The Pragmatic Programmer        │ 2.8 MB  │ 2024-10-30 │ 352   │
+│ Design Patterns                 │ 3.2 MB  │ 2024-09-10 │ 395   │
+│ Refactoring                     │ 3.5 MB  │ 2024-08-18 │ 412   │
+│ Clean Code                      │ 4.1 MB  │ 2024-11-20 │ 464   │
+│ Domain-Driven Design            │ 5.8 MB  │ 2024-06-22 │ 560   │
+│ Java The Complete Reference     │ 8.4 MB  │ 2025-02-01 │ 1248  │
+╰─────────────────────────────────┴─────────┴────────────┴───────╯
+
+Total books: 8
+```
+
+## Sorting by Creation Date
+
+```bash
+PS C:\> bookshelf list "C:\MyBookshelf" --details --sort date --reverse
+
+╭───────────────────╮
+│ Bookshelf Listing │
+╰───────────────────╯
+
+Bookshelf: C:\MyBookshelf
+
+╭─────────────────────────────────┬─────────┬────────────┬───────╮
+│ Title                           │ Size    │ Created    │ Pages │
+├─────────────────────────────────┼─────────┼────────────┼───────┤
+│ Java The Complete Reference     │ 8.4 MB  │ 2025-02-01 │ 1248  │
+│ Advanced Python Programming     │ 2.5 MB  │ 2025-01-15 │ 342   │
+│ Python Crash Course             │ 2.1 MB  │ 2024-12-05 │ 288   │
+│ Clean Code                      │ 4.1 MB  │ 2024-11-20 │ 464   │
+│ The Pragmatic Programmer        │ 2.8 MB  │ 2024-10-30 │ 352   │
+│ Design Patterns                 │ 3.2 MB  │ 2024-09-10 │ 395   │
+│ Refactoring                     │ 3.5 MB  │ 2024-08-18 │ 412   │
+│ Domain-Driven Design            │ 5.8 MB  │ 2024-06-22 │ 560   │
+╰─────────────────────────────────┴─────────┴────────────┴───────╯
+
+Total books: 8
+```
+
+## Empty Bookshelf
+
+```bash
+PS C:\> bookshelf list "C:\EmptyBookshelf"
+
+╭───────────────────╮
+│ Bookshelf Listing │
+╰───────────────────╯
+
+Bookshelf: C:\EmptyBookshelf
+
+╭─────────────────────────────────────────────────────────────────────────╮
+│ 📚 Your bookshelf is empty!                                             │
+│                                                                         │
+│ To add books to your bookshelf, you can:                                │
+│   • Copy PDF files directly to this directory                           │
+│   • Use the consolidate command to organize books from another location │
+╰─────────────────────────────────────────────────────────────────────────╯
+```
+
+## Help Output
+
+```bash
+PS C:\> bookshelf list --help
+
+DESCRIPTION:
+    List all books in a bookshelf
+
+USAGE:
+    bookshelf list <BOOKSHELF> [OPTIONS]
+
+EXAMPLES:
+    bookshelf list /path/to/bookshelf
+    bookshelf list /path/to/bookshelf --details
+    bookshelf list /path/to/bookshelf --filter Python
+    bookshelf list /path/to/bookshelf --sort size --reverse
+
+ARGUMENTS:
+    <BOOKSHELF>    The bookshelf directory containing PDF files
+
+OPTIONS:
+    -h, --help             Prints help information
+    -f, --filter <FILTER>  Filter books by title (case-insensitive search)
+    -d, --details          Show detailed book information including file size, creation date, and page count
+    -s, --sort <FIELD>     Sort by: title, size, date, or pages
+    -r, --reverse          Reverse the sort order (descending instead of ascending)
+```
+
+## Error Scenarios
+
+```bash
+# Missing required argument
+PS C:\> bookshelf list
+Error: Missing required argument 'BOOKSHELF'
+
+# Directory doesn't exist
+PS C:\> bookshelf list "C:\NonExistent"
+Error: Bookshelf directory does not exist: C:\NonExistent
+
+# Invalid sort field
+PS C:\> bookshelf list "C:\Bookshelf" --sort invalid
+Error: Invalid sort field: invalid. Valid options: title, size, date, pages
+
+# No filter matches
+PS C:\> bookshelf list "C:\MyBookshelf" --filter "xyz123"
+
+╭───────────────────╮
+│ Bookshelf Listing │
+╰───────────────────╯
+
+Bookshelf: C:\MyBookshelf
+Filter: xyz123
+
+Total books: 0
+```
+
+## Command Options Summary
+
+| Option | Short | Description | Default |
+| ------ | ----- | ----------- | ------- |
+| `--filter` | `-f` | Filter books by title (case-insensitive) | None |
+| `--details` | `-d` | Show detailed table view | False |
+| `--sort` | `-s` | Sort field: title, size, date, pages | title |
+| `--reverse` | `-r` | Descending sort order | False |
