@@ -157,17 +157,12 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
-*.tmp
-*~
 
 # Mac
 .DS_Store
 .AppleDouble
 .LSOverride
 ._*
-
-# Linux
-*~
 
 # =========================
 # SQL Server files
@@ -180,6 +175,8 @@ App_Data/*.ldf
 # Temporary and generated files
 # =========================
 
+# Temporary files (editor backup files like file~)
+*~
 *.Cache
 ClientBin/
 [Ss]tyle[Cc]op.*
@@ -211,7 +208,6 @@ appsettings.Development.json
 
 # Logs
 logs/
-*.log
 
 # Cake
 tools/**
