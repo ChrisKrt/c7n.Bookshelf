@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
         
         // Register application services
         services.AddTransient<IBookshelfConsolidationService, BookshelfConsolidationService>();
+        services.AddTransient<IBookshelfListService, BookshelfListService>();
         
         return services;
     }
