@@ -104,6 +104,11 @@ public sealed class ListSettings : CommandSettings
 /// </summary>
 public sealed class ListCommand : AsyncCommand<ListSettings>
 {
+    /// <summary>
+    /// Date format used for displaying book creation dates
+    /// </summary>
+    private const string DateFormat = "yyyy-MM-dd";
+
     private readonly IBookshelfListService _listService;
 
     /// <summary>
@@ -226,7 +231,7 @@ public sealed class ListCommand : AsyncCommand<ListSettings>
             table.AddRow(
                 Markup.Escape(book.Title),
                 book.FormattedFileSize,
-                book.CreationDate.ToString("yyyy-MM-dd"),
+                book.CreationDate.ToString(DateFormat),
                 pageCountStr);
         }
 

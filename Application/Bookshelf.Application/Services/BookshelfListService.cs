@@ -180,12 +180,27 @@ public sealed class BookshelfListService : IBookshelfListService
             BookListSortField.CreationDate => direction == SortDirection.Ascending
                 ? books.OrderBy(b => b.CreationDate)
                 : books.OrderByDescending(b => b.CreationDate),
-            BookListSortField.PageCount => direction == SortDirection.Ascending
-                ? books.OrderBy(b => b.PageCount ?? 0)
-                : books.OrderByDescending(b => b.PageCount ?? 0),
+            BookListSortField.PageCount => SortByPageCount(books, direction),
             _ => books.OrderBy(b => b.Title, StringComparer.OrdinalIgnoreCase)
         };
 
         return sorted.ToList();
+    }
+
+    /// <summary>
+    /// Sorts books by page count, placing books with unknown page counts at the end
+    /// </summary>
+    private static IEnumerable<BookInfo> SortByPageCount(List<BookInfo> books, SortDirection direction)
+    {
+        // Separate books with and without page counts
+        var booksWithPages = books.Where(b => b.PageCount.HasValue);
+        var booksWithoutPages = books.Where(b => !b.PageCount.HasValue);
+
+        // Sort books with pages, keeping those without at the end
+        var sortedWithPages = direction == SortDirection.Ascending
+            ? booksWithPages.OrderBy(b => b.PageCount!.Value)
+            : booksWithPages.OrderByDescending(b => b.PageCount!.Value);
+
+        return sortedWithPages.Concat(booksWithoutPages);
     }
 }
