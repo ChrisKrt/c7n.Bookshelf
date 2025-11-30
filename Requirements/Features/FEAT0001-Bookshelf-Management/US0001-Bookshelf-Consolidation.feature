@@ -69,14 +69,14 @@ Feature: US0001 - Bookshelf Consolidation
   @Issue25
   Scenario: Handle mitp publisher naming pattern for chapter ordering
     Given I have a PDF collection from mitp publisher
-    And the collection contains files with patterns like "Cover", "Titel", "Inhaltsverzeichnis", "Einleitung"
+    And the collection contains files with patterns like "Cover", "Titel", "Inhaltsverzeichnis", "Einleitung", "über den Autor"
     And the collection contains files with patterns like "Kapitel_1_", "Kapitel_2_", "Kapitel_10_", "Kapitel_11_"
     And the collection contains files with patterns like "Anhang_A_", "Anhang_B_"
     And the collection contains files with patterns like "Glossar", "Stichwortverzeichnis"
     And the collection may contain duplicate files with "(1)" suffix
     When I run the consolidation command
     Then the system should detect the mitp naming pattern plugin
-    And front matter files (Cover, Titel, Inhaltsverzeichnis, Einleitung) should be placed first
+    And front matter files (Cover, Titel, Inhaltsverzeichnis, Einleitung, über den Autor) should be placed first in order
     And chapters should be ordered numerically (Kapitel_1, Kapitel_2, ..., Kapitel_10, Kapitel_11)
     And appendices should be ordered alphabetically after chapters (Anhang_A, Anhang_B)
     And back matter files (Glossar, Stichwortverzeichnis) should be placed at the end

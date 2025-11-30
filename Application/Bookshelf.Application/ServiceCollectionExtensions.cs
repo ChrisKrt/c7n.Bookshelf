@@ -1,4 +1,5 @@
 using Bookshelf.Application.Api;
+using Bookshelf.Application.Core.Plugins;
 using Bookshelf.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +17,10 @@ public static class ServiceCollectionExtensions
     /// <returns>The service collection for chaining</returns>
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        // Register plugin factory as singleton (plugins are stateless)
+        services.AddSingleton<INamingPatternPluginFactory, NamingPatternPluginFactory>();
+        
+        // Register application services
         services.AddTransient<IBookshelfConsolidationService, BookshelfConsolidationService>();
         
         return services;
