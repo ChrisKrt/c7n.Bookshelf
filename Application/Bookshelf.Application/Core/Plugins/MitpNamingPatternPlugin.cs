@@ -4,12 +4,12 @@ namespace Bookshelf.Application.Core.Plugins;
 
 /// <summary>
 /// Naming pattern plugin for mitp publisher books with German naming conventions
-/// Handles patterns like: Cover, Titel, Inhaltsverzeichnis, Einleitung, Kapitel_1_, Anhang_A_, Glossar, Stichwortverzeichnis
+/// Handles patterns like: Cover, Titel, Inhaltsverzeichnis, Einleitung, über den Autor, Kapitel_1_, Anhang_A_, Glossar, Stichwortverzeichnis
 /// </summary>
 public sealed class MitpNamingPatternPlugin : NamingPatternPluginBase
 {
     private static readonly string[] FrontMatterPatterns = 
-        ["Cover", "Titel", "Inhaltsverzeichnis", "Einleitung"];
+        ["Cover", "Titel", "Inhaltsverzeichnis", "Einleitung", "ber_den_Autor"];
     
     private static readonly string[] BackMatterPatterns = 
         ["Glossar", "Stichwortverzeichnis"];
@@ -85,7 +85,7 @@ public sealed class MitpNamingPatternPlugin : NamingPatternPluginBase
 
     private static string GetFrontMatterSortKey(string fileName)
     {
-        // Order: Cover, Titel, Inhaltsverzeichnis, Einleitung
+        // Order: Cover, Titel, Inhaltsverzeichnis, Einleitung, über den Autor
         for (var i = 0; i < FrontMatterPatterns.Length; i++)
         {
             if (fileName.Contains(FrontMatterPatterns[i], StringComparison.OrdinalIgnoreCase))
