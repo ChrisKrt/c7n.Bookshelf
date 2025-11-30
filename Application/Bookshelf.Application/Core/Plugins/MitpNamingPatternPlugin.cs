@@ -9,7 +9,7 @@ namespace Bookshelf.Application.Core.Plugins;
 public sealed class MitpNamingPatternPlugin : NamingPatternPluginBase
 {
     private static readonly string[] FrontMatterPatterns = 
-        ["Cover", "Titel", "Inhaltsverzeichnis", "Einleitung", "ber_den_Autor"];
+        ["Cover", "Titel", "Inhaltsverzeichnis", "Einleitung", "über den Autor"];
     
     private static readonly string[] BackMatterPatterns = 
         ["Glossar", "Stichwortverzeichnis"];
